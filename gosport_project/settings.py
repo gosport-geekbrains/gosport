@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mainapp.apps.MainappConfig',
     'authapp.apps.AuthappConfig',
     'venuesapp.apps.VenuesappConfig',
+    'eventsapp.apps.EventsappConfig',
 ]
 
 MIDDLEWARE = [
