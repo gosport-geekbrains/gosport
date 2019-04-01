@@ -21,6 +21,7 @@ urlpatterns = [
     path('auth/', include('authapp.urls', namespace='auth')),
     path('venues/', include('venuesapp.urls', namespace='venues')),
     path('events/', include('eventsapp.urls', namespace='events')),
+    path('search/', include('searchapp.urls', namespace='search')),
 
     path('admin/', admin.site.urls),
 ]
