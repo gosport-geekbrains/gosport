@@ -7,3 +7,7 @@ def index(request):
 
 def contact(request):
     return render(request, 'mainapp/contact.html')
+
+
+def thank_you(request):
+    return render(request, 'mainapp/thank_you.html')
