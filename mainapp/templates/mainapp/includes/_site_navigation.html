@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="index.html"><img src="/static/img/logo.png" alt="logo"></a>
+                        <a class="navbar-brand" href="{% url 'mainapp:index' %}"><img src="/static/img/logo.png" alt="logo"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                                 aria-label="Toggle navigation">
@@ -14,7 +14,7 @@
                         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="listing.html">Карта Спортобъектов</a>
+                                    <a class="nav-link" href="{% url 'venues:venues_map' %}">Карта Спортобъектов</a>
                                 </li>
 
                                 <li class="nav-item dropdown">
@@ -24,20 +24,20 @@
                                         <span class="ti-angle-down"></span>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="listing.html">Карта спортобъектов</a>
-                                        <a class="dropdown-item" href="detail.html">Описание спортобъекта</a>
-                                        <a class="dropdown-item" href="add-listing.html">Добавить спортобъект</a>
-                                        <a class="dropdown-item" href="add-event.html">Добавить мероприятие</a>
+                                        <a class="dropdown-item" href="{% url 'venues:venues_map' %}">Карта спортобъектов</a>
+                                        <a class="dropdown-item" href="{% url 'venues:venue' 123 %}">Описание спортобъекта</a>
+                                        <a class="dropdown-item" href="{% url 'venues:add_venue' %}">Добавить спортобъект</a>
+                                        <a class="dropdown-item" href="{% url 'events:add_event' %}">Добавить мероприятие</a>
                                     </div>
                                 </li>
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="contact.html">Контакты</a>
+                                    <a class="nav-link" href="{% url 'mainapp:contact' %}">Контакты</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="login.html" data-toggle="modal"
                                        data-target="#exampleModal">Login</a>
                                 </li>
-                                <li><a href="add-listing.html" class="btn btn-outline-danger top-btn"><span
+                                <li><a href="{% url 'venues:add_venue' %}" class="btn btn-outline-danger top-btn"><span
                                         class="ti-plus"></span> Добавить спортобъект</a></li>
                             </ul>
                         </div>
