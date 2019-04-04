@@ -113,6 +113,9 @@ class GeoObject(models.Model):
     geo_data = models.TextField(verbose_name='Гео-JSON')
     is_active = models.BooleanField(
         verbose_name='Признак активности', default=True)
+    usage_period_winter = models.CharField(verbose_name='Период использования зимой', max_length=50, blank=True)
+    usage_period_summer = models.CharField(verbose_name='Период использования летом', max_length=50, blank=True)
+
 
     def __str__(self):
         return self.name

@@ -123,3 +123,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MOS_API_KEY = '3af1c4bc45500ff00ffc747f15ea5262'
