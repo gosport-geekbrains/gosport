@@ -7,3 +7,7 @@ def venues_map(request):
 
 def venue(request, pk):
     return render(request, 'venuesapp/venue.html')
+
+
+def add_venue(request):
+    return render(request, 'venuesapp/add_venue.html')

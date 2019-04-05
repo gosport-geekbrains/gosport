@@ -7,3 +7,7 @@ def events_map(request):
 
 def event(request, pk):
     return render(request, 'eventsapp/event.html')
+
+
+def add_event(request):
+    return render(request, 'eventsapp/add_event.html')
