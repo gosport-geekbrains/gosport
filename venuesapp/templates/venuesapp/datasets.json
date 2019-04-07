@@ -1,0 +1,61 @@
+[{
+  	"DatasetName": "Cпортивные площадки",
+  	"DatasetID": "893",
+  	"DatasetDescr": "",
+  	"DataSetIsActive": "1"
+ },
+{
+  	"DatasetName": "Площадки спортивные универсальные в парках",
+  	"DatasetID": "1251",
+  	"DatasetDescr": "",
+  	"DataSetIsActive": "1"
+},
+
+{
+	"DatasetName": "Тренажерные городки (воркауты)",
+	"DatasetID": "898",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+},
+{
+	"DatasetName": "Поля футбольные",
+	"DatasetID": "886",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+},
+{
+	"DatasetName": "Поля регбийные",
+	"DatasetID": "885",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+}
+,
+{
+	"DatasetName": "Площадки для городошного спорта",
+	"DatasetID": "917",
+	"DatasetDescr": "",
+	"DataSetIsActive": ""
+}
+,
+{
+	"DatasetName": "Места для пикника",
+	"DatasetID": "912",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+}
+,
+{
+	"DatasetName": "Скалодромы открытые",
+	"DatasetID": "1388",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+}
+,
+{
+	"DatasetName": "Скалодромы крытые",
+	"DatasetID": "1387",
+	"DatasetDescr": "",
+	"DataSetIsActive": "1"
+}
+]
+

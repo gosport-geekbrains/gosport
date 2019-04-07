@@ -4,6 +4,7 @@ venv
 gosport_project/static/images/photo/
 venuesapp\static\images\photo
 gosport_project\static\images\photo
+venuesapp/static/images/photo/
 __pycache__
 
 *.log

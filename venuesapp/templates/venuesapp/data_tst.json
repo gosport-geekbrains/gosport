@@ -1,0 +1,23 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "id": 281852383,
+   "geometry": {
+    "coordinates": [
+     55.6020936006,
+     37.7404944648
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "balloonContentHeader": "каток с натуральным льдом"
+   },
+   "options": {
+   "iconImageHref": "static/images/point_blue.gif"
+   
+   }
+  } 
+ ]
+}

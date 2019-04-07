@@ -22,12 +22,63 @@ function init () {
 	objectManager.objects.options.set({
 		iconLayout: 'default#image',
 	//	iconImageHref: 'static/images/map_markers/point_blue.gif',
-		iconImageSize: [5, 5]});
+        iconImageSize: [5, 5],
+        iconImageOffset: [5, 5] });
     
 	
 	objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
 
+    // Создадим 5 пунктов выпадающего списка.
+    var listBoxItems = ['893', '1251', '898', '886', '885', '917','912','1388','1387']
+        .map(function (title) {
+            return new ymaps.control.ListBoxItem({
+                data: {
+                    content: title
+                },
+                state: {
+                    selected: true
+                }
+            })
+        }),
+        // Теперь создадим список, содержащий 5 пунктов.
+        listBoxControl = new ymaps.control.ListBox({
+            data: {
+                content: 'Фильтр',
+                title: 'Фильтр'
+            },
+            items: listBoxItems,
+            state: {
+                // Признак, развернут ли список.
+                expanded: false,
+                filters: listBoxItems.reduce(function (filters, filter) {
+                    filters[filter.data.get('content')] = filter.isSelected();
+                    return filters;
+                }, {})
+            }
+        });
+    myMap.controls.add(listBoxControl);
+
+    // Добавим отслеживание изменения признака, выбран ли пункт списка.
+    listBoxControl.events.add(['select', 'deselect'], function(e) {
+        var listBoxItem = e.get('target');
+        var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
+        filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
+        listBoxControl.state.set('filters', filters);
+    });
+
+    var filterMonitor = new ymaps.Monitor(listBoxControl.state);
+    filterMonitor.add('filters', function(filters) {
+        // Применим фильтр.
+        objectManager.setFilter(getFilterFunction(filters));
+    });
+
+    function getFilterFunction(categories){
+        return function(obj){
+            var content = obj.properties.dataset_id;
+            return categories[content]
+        }
+    }
 
 
     $.ajax({
