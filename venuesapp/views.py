@@ -50,3 +50,6 @@ def get_photo_from_api(filename):
        print(result_file_path, " exists")
    return settings.PHOTOS_PATH + '/' + filename+'.jpg'
 
+def get_season():
+        #сверить дату с usage для определения того, какие данные выдавать - летние или зимние
+        pass

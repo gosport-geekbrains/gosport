@@ -138,6 +138,7 @@ class GeoObject(models.Model):
         verbose_name='Летние сервисы', blank=True, null=True)
     equipment_rental_comments = models.TextField(
         verbose_name='Информация о прокате', blank=True, null=True)
+
     
     #def __str__(self):
     #    return self.name
