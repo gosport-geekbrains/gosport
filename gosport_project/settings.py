@@ -25,7 +25,7 @@ SECRET_KEY = 'rla0(g^4q!@o1#)bsm)vk=8b)s)jd&ys*fbka+9z^-&+tv1g8)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -123,5 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "gosport_project/static"),
+]
 
 MOS_API_KEY = '3af1c4bc45500ff00ffc747f15ea5262'
+MOS_API_IMG_PATH = os.path.join(BASE_DIR, 'gosport_project', 'static', 'images','photo')
+MOS_API_IMG_SRC = 'https://op.mos.ru/MEDIA/showFile?id={}'
+YANDEX_JSON_FILE = os.path.join(BASE_DIR, 'gosport_project', 'static', 'json', 'data.json')
+PHOTOS_PATH = 'static/images/photo'
+
+YAMAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'
