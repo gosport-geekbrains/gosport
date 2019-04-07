@@ -12,7 +12,8 @@ function init () {
             clusterize: true,
             // ObjectManager принимает те же опции, что и кластеризатор.
             gridSize: 70,
-            clusterDisableClickZoom: true
+            clusterDisableClickZoom: true,
+            clusterIconLayout: "default#pieChart"
         });
 
     // Чтобы задать опции одиночным объектам и кластерам,
@@ -29,18 +30,42 @@ function init () {
 	objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
 
-    // Создадим 5 пунктов выпадающего списка.
-    var listBoxItems = ['893', '1251', '898', '886', '885', '917','912','1388','1387']
-        .map(function (title) {
-            return new ymaps.control.ListBoxItem({
-                data: {
-                    content: title
-                },
+    listBoxItems = [
+        new ymaps.control.ListBoxItem({
+            data: {
+                content: '893 tzt',
+                dataset_id: 893
+            },
                 state: {
                     selected: true
                 }
-            })
+            
         }),
+        new ymaps.control.ListBoxItem({
+            data: {
+                content: '912 text',
+                dataset_id: 912
+            },
+            state: {
+                selected: true
+            }
+        })
+    ],
+
+
+
+    // Создадим 5 пунктов выпадающего списка.
+//    var listBoxItems = ['893', '1251', '898', '886', '885', '917','912','1388','1387']
+ //       .map(function (title) {
+//            return new ymaps.control.ListBoxItem({
+//                data: {
+//                    content: title
+//                },
+//                state: {
+//                    selected: true
+ //               }
+ //           })
+ //       }),
         // Теперь создадим список, содержащий 5 пунктов.
         listBoxControl = new ymaps.control.ListBox({
             data: {
@@ -52,7 +77,7 @@ function init () {
                 // Признак, развернут ли список.
                 expanded: false,
                 filters: listBoxItems.reduce(function (filters, filter) {
-                    filters[filter.data.get('content')] = filter.isSelected();
+                    filters[filter.data.get('dataset_id')] = filter.isSelected();  //content
                     return filters;
                 }, {})
             }
@@ -63,7 +88,7 @@ function init () {
     listBoxControl.events.add(['select', 'deselect'], function(e) {
         var listBoxItem = e.get('target');
         var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
-        filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
+        filters[listBoxItem.data.get('dataset_id')] = listBoxItem.isSelected(); //content
         listBoxControl.state.set('filters', filters);
     });
 
@@ -76,7 +101,7 @@ function init () {
     function getFilterFunction(categories){
         return function(obj){
             var content = obj.properties.dataset_id;
-            return categories[content]
+            return categories[content]   //
         }
     }
 
