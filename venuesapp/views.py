@@ -6,7 +6,8 @@ import os, json, requests
 JSON_PATH = 'venuesapp/json'
 
 def venues_map(request):
-    return render(request, 'venuesapp/venues_map.html')
+    content = {'yandex_api_key': settings.YANDEX_MAP_API_KEY}
+    return render(request, 'venuesapp/venues_map.html', content)
 
 
 def venue(request, pk):
@@ -53,3 +54,6 @@ def get_photo_from_api(filename):
 def get_season():
         #сверить дату с usage для определения того, какие данные выдавать - летние или зимние
         pass
+
+def add_venue(request):
+    return render(request, 'venuesapp/add_venue.html')

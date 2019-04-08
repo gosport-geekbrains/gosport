@@ -134,4 +134,4 @@ MOS_API_IMG_SRC = 'https://op.mos.ru/MEDIA/showFile?id={}'
 YANDEX_JSON_FILE = os.path.join(BASE_DIR, 'gosport_project', 'static', 'json', 'data.json')
 PHOTOS_PATH = 'static/images/photo'
 
-YAMAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'
+YANDEX_MAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'
