@@ -53,3 +53,6 @@ def get_photo_from_api(filename):
 def get_season():
         #сверить дату с usage для определения того, какие данные выдавать - летние или зимние
         pass
+
+def add_venue(request):
+    return render(request, 'venuesapp/add_venue.html')
