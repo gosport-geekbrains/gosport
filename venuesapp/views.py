@@ -66,3 +66,4 @@ def get_map_objects(request):
     }
 
     return render(request, 'venuesapp/js/objects_manager.js', content)
+

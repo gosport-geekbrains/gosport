@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/', venuesapp_views.venue, name='venue'),
     path('add/', venuesapp_views.add_venue, name='add_venue'),
     path('js/objects_manager.js', venuesapp_views.get_map_objects, name='create_yamap_js')
+
 ]
