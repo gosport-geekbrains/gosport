@@ -8,5 +8,5 @@ urlpatterns = [
     path('', venuesapp_views.venues_map, name='venues_map'),
     path('<int:pk>/', venuesapp_views.venue, name='venue'),
     path('add/', venuesapp_views.add_venue, name='add_venue'),
-	#path('map_script.js',venueapp_views.create_map_js, name='create_map_js'),
+    path('js/objects_manager.js', venuesapp_views.get_map_objects, name='create_yamap_js')
 ]

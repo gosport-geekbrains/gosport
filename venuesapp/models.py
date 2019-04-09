@@ -21,6 +21,7 @@ class Category(models.Model):
         verbose_name='Описание категории объекта', blank=True)
     is_active = models.BooleanField(
         verbose_name='Признак активности', default=True)
+    ya_preset = models.CharField(verbose_name='Yandex settings', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -138,6 +139,8 @@ class GeoObject(models.Model):
         verbose_name='Летние сервисы', blank=True, null=True)
     equipment_rental_comments = models.TextField(
         verbose_name='Информация о прокате', blank=True, null=True)
+    create_date = models.DateTimeField(verbose_name='Дата создания', default=now)
+    
 
     
     #def __str__(self):
@@ -154,7 +157,7 @@ class Photo(models.Model):
     is_active = models.BooleanField(
         verbose_name='Признак активности', default=True)
     description = models.TextField(verbose_name='Описание фото', blank=True)
-    upload_date = models.DateTimeField(verbose_name='Дата загрузки', default=now())
+    create_date = models.DateTimeField(verbose_name='Дата загрузки', default=now)
     #owner
 
     def __str__(self):
@@ -170,6 +173,7 @@ class Dataset(models.Model):
     description = models.TextField(verbose_name='Описание', blank=True)
     is_active = models.BooleanField(
         verbose_name='Признак активности', default=True)
+    ya_preset = models.CharField(verbose_name='Yandex settings', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.name

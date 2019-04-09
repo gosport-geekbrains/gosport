@@ -18,40 +18,30 @@ function init () {
 
     // Чтобы задать опции одиночным объектам и кластерам,
     // обратимся к дочерним коллекциям ObjectManager.
-    objectManager.objects.options.set('preset', 'islands#greenDotIcon');
+    //objectManager.objects.options.set('preset', 'islands#greenDotIcon');
     
 	objectManager.objects.options.set({
-		iconLayout: 'default#image',
+	//	iconLayout: 'default#image',
 	//	iconImageHref: 'static/images/map_markers/point_blue.gif',
         iconImageSize: [5, 5],
         iconImageOffset: [5, 5] });
     
-	
-	objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
+	//objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
-
     listBoxItems = [
+    {% for dataset in datasets %}
         new ymaps.control.ListBoxItem({
             data: {
-                content: '893 tzt',
-                dataset_id: 893
+                content: '{{ dataset.name }}',
+                dataset_id: {{ dataset.dataset_id }}
             },
                 state: {
                     selected: true
                 }
             
         }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                content: '912 text',
-                dataset_id: 912
-            },
-            state: {
-                selected: true
-            }
-        })
-    ],
-
+    {% endfor %}
+    ]
 
 
     // Создадим 5 пунктов выпадающего списка.

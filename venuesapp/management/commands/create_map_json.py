@@ -35,11 +35,14 @@ class Command(BaseCommand):
             }
             geo_object_json['properties'] = {
                 'balloonContentHeader': geo_object.name_winter,
-                'balloonContentBody': "<a href='/venues/venue/{id}'>{object_name}</a>".format(object_name=geo_object.object_name, id=geo_object.global_id),
-                'dataset_id': Category.objects.get(name=geo_object.object_type).dataset_id
+                'balloonContentBody': "<a href='/venues/venue/{id}'>{object_name}</a>".format(
+                    object_name=geo_object.object_name, id=geo_object.global_id),
+                'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
                 }
+
             geo_object_json['options'] = {'iconImageHref': '/static/images/map_markers/{}'.format(
-                Category.objects.get(name=geo_object.object_type).marker)}
+                Category.objects.get(name=geo_object.object_type).marker),
+                'preset': Category.objects.get(name=geo_object.object_type).ya_preset}
             #print(geo_object_json)
             json_result['features'].append(geo_object_json)
         #    json_file.write(json.dumps(geo_object_json, ensure_ascii=False))

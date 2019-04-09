@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-
+from venuesapp.models import Category, Dataset
 import os, json, requests
 
 JSON_PATH = 'venuesapp/json'
@@ -57,3 +57,12 @@ def get_season():
 
 def add_venue(request):
     return render(request, 'venuesapp/add_venue.html')
+
+def get_map_objects(request):
+
+    datasets = Category.objects.filter(is_active=True)
+    content = {
+        'datasets': datasets
+    }
+
+    return render(request, 'venuesapp/js/objects_manager.js', content)
