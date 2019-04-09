@@ -141,6 +141,8 @@ class GeoObject(models.Model):
         verbose_name='Информация о прокате', blank=True, null=True)
     create_date = models.DateTimeField(verbose_name='Дата создания', default=now)
     
+#    def working_hours(self:
+#        pass
 
     
     #def __str__(self):

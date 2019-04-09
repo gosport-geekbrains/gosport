@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
-from venuesapp.models import Category, Dataset
+from django.shortcuts import get_object_or_404, get_list_or_404
+from venuesapp.models import Category, Dataset, GeoObject, Photo
 import os, json, requests
 
 JSON_PATH = 'venuesapp/json'
@@ -11,7 +12,17 @@ def venues_map(request):
 
 
 def venue(request, pk):
-    return render(request, 'venuesapp/venue.html')
+
+    venue = get_object_or_404(GeoObject, is_active=True, global_id=pk)
+    try:
+        venue_photos = Photo.objects.filter(is_active=True, geo_object_id=pk)
+    except:
+        venue_photos = {}
+
+    content = {'title': venue.object_name,
+               'venue': venue,
+                'venue_photos': venue_photos }
+    return render(request, 'venuesapp/venue.html', content)
 
     
 #DB Initialization 

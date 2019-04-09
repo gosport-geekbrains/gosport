@@ -14,10 +14,15 @@ from venuesapp.models import Category, GeoObject, District, AdmArea, Photo, Data
 
 class Command(BaseCommand):
     help = 'create full JSON for Yamap'
+    def add_arguments(self, parser):
+        parser.add_argument('--detail',
+                            action='store_true',
+                            help='generating json with additonal info')
+
 
     def handle(self, *args, **options):
-        geo_objects = GeoObject.objects.select_related().all()
-        
+        geo_objects = GeoObject.objects.select_related().filter(is_active=True)
+
         geo_object_json = {}
 
         #with open(settings.YANDEX_JSON_FILE, 'w+', encoding='utf-8') as json_file:
@@ -35,10 +40,16 @@ class Command(BaseCommand):
             }
             geo_object_json['properties'] = {
                 'balloonContentHeader': geo_object.name_winter,
-                'balloonContentBody': "<a href='/venues/venue/{id}'>{object_name}</a>".format(
+                'balloonContentBody': "<a href='/venues/{id}/'>{object_name}</a>".format(
                     object_name=geo_object.object_name, id=geo_object.global_id),
                 'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
                 }
+            if options['detail']:
+                #print(AdmArea.objects.get(name=geo_object.adm_area).id)
+                geo_object_json['properties'].update({
+                    'adm_area': geo_object.adm_area_id,
+                    'district': geo_object.district_id
+                })
 
             geo_object_json['options'] = {'iconImageHref': '/static/images/map_markers/{}'.format(
                 Category.objects.get(name=geo_object.object_type).marker),
