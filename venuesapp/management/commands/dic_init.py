@@ -44,8 +44,7 @@ class Command(BaseCommand):
             #with open(dataset['dataset_id']+'.json', 'w', encoding='utf-8') as f:
             #    json.dump(geo_objects, f, ensure_ascii=False)
            
-            #new_geo = GeoObject(object_name=dataset["ObjectName"])
-            #print(geo_objects)
+
             for geo_object in geo_objects['features']:
                 venue = {}
 
@@ -57,6 +56,8 @@ class Command(BaseCommand):
                     new_adm_area = AdmArea(
                         name=geo_object['properties']['Attributes']['AdmArea'])
                     new_adm_area.save()
+                    venue['adm_area'] = AdmArea.objects.get(
+                        name=geo_object['properties']['Attributes']['AdmArea'])
                
                 #test of Dstrict dict
                 try:
@@ -66,6 +67,8 @@ class Command(BaseCommand):
                     new_district = District(
                         name=geo_object['properties']['Attributes']['District'])
                     new_district.save()
+                    venue['district'] = District.objects.get(
+                        name=geo_object['properties']['Attributes']['District'])
 
                 venue['global_id'] = geo_object['properties']['Attributes']['global_id']
                 
