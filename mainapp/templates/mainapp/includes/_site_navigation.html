@@ -39,7 +39,7 @@
                                             Личный кабинет <span class="ti-angle-down"></span>
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Дашборд</a>
+                                            <a class="dropdown-item" href="{% url 'auth:user_dashboard' %}">Дашборд</a>
                                             <a class="dropdown-item" href="{% url 'auth:user_profile' %}">Настройки</a>
                                             <a class="dropdown-item" href="{% url 'auth:logout' %}">Выйти</a>
                                         </div>
