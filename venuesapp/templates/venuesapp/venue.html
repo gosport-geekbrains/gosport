@@ -61,9 +61,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Tasty Hand-Pulled Noodles</h5>
+                    <h5>{{ venue.object_name }}</h5>
                     <p><span>$$$</span>$$</p>
-                    <p class="reserve-description">Innovative cooking, paired with fine wines in a modern setting.</p>
+                    <p class="reserve-description">{{ venue.name_winter }}</p>
                 </div>
                 <div class="col-md-6">
                     <div class="reserve-seat-block">
@@ -72,7 +72,7 @@
                         </div>
                         <div class="reserve-btn">
                             <div class="featured-btn-wrap">
-                                <a href="#" class="btn btn-danger">RESERVE A SEAT</a>
+                                <a href="#" class="btn btn-danger">Создать событие</a>
                             </div>
                         </div>
                     </div>
@@ -88,26 +88,24 @@
                 <div class="col-md-8 responsive-wrap">
                     <div class="booking-checkbox_wrap">
                         <div class="booking-checkbox">
+                            {{ venue.description }}
+
+                            <p> {{ venue.work_hours_winter }} </p>
+
                             <p>Tasty Hand-Pulled Noodles is a 1950s style diner located in Madison, Wisconsin. Opened in
-                                1946 by Mickey Weidman, and located just across the street from Camp Randall Stadium, it has
-                                become a popular game day tradition amongst
-                                many Badger fans. The diner is well known for its breakfast selections, especially the
-                                Scrambler, which is a large mound of potatoes, eggs, cheese, gravy, and a patrons’ choice of
-                                other toppings.</p>
-                            <p>Mickies has also been featured on “Todd’s Taste of the Town” during one of ESPN’s college
-                                football broadcasts. We are one of the best Chinese restaurants in the New York, New York
-                                area. We have been recognized for our outstanding
-                                Chinese & Asian cuisine, excellent Chinese menu, and great restaurant specials. We are one
-                                of the best Chinese restaurants in the New York, New York area. We have been recognized for
-                                our outstanding Chinese & Asian cuisine,
-                                excellent Chinese menu, and great restaurant specials.</p>
+                            </p>
+                            <p><b>Тип покрытия летом: </b>{{ venue.surface_type_winter }}</p>
+                            <p><b>Тип покрытия зимой: </b>{{ venue.surface_type_winter }} </p>
                             <hr>
                         </div>
                         <div class="row">
+
+
+
                             <div class="col-md-4">
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Bike Parking</span>
+                                    <span class="custom-control-description">{{ has_music }}</span>
                                 </label>
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
@@ -257,22 +255,27 @@
                         <img src="/static/img/map.jpg" class="img-fluid" alt="#">
                         <div class="address">
                             <span class="icon-location-pin"></span>
-                            <p> Doyers St<br> New York, NY 10013<br> b/t Division St & St James Pl <br> Chinatown, Civic
-                                Center</p>
+                            <p> {{ venue.adm_area }} <br> {{ venue.district }} <br> {{ venue.address }}</p>
                         </div>
-                        <div class="address">
-                            <span class="icon-screen-smartphone"></span>
-                            <p> +44 20 7336 8898</p>
-                        </div>
-                        <div class="address">
-                            <span class="icon-link"></span>
-                            <p>https://burgerandlobster.com</p>
-                        </div>
+                        {% if venue.help_phone %}
+                            <div class="address">
+                                <span class="icon-screen-smartphone"></span>
+                                <p> {{ venue.help_phone }}</p>
+                            </div>
+                        {% endif %}
+                        {% if venue.web_site %}
+                            <div class="address">
+                                <span class="icon-link"></span>
+                                <p>{{ venue.web_site }}</p>
+                            </div>
+                        {% endif %}
+                        {% if venue.working_hours_winter %}
                         <div class="address">
                             <span class="icon-clock"></span>
-                            <p>Mon - Sun 09:30 am - 05:30 pm </p>
-                            <a href="#" class="featured-open">OPEN NOW</a>
+                            <p>{{ venue.working_hours_winter }} </p>
+                            <!-- <a href="#" class="featured-open">OPEN NOW</a> -->
                         </div>
+                        {% endif %}
                         <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
                     </div>
                     <div class="follow">

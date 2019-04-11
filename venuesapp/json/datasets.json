@@ -3,7 +3,8 @@
   	"dataset_id": "893",
   	"description": "",
   	"is_active": "1",
-	"marker":"point_blue.gif"
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#yellowCircleDotIcon"
 
  },
 {
@@ -11,7 +12,8 @@
   	"dataset_id": "1251",
   	"description": "",
   	"is_active": "1",
-	"marker":"point_blue.gif"
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#pinkCircleDotIcon"
 },
 
 {
@@ -19,21 +21,24 @@
 	"dataset_id": "898",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_blue.gif"
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#orangeCircleDotIcon"
 },
 {
 	"name": "Поля футбольные",
 	"dataset_id": "886",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#oliveCircleDotIcon"
 },
 {
 	"name": "Поля регбийные",
 	"dataset_id": "885",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#nightCircleDotIcon"
 }
 ,
 {
@@ -41,7 +46,8 @@
 	"dataset_id": "917",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#greenCircleDotIcon"
 }
 ,
 {
@@ -49,7 +55,8 @@
 	"dataset_id": "912",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#darkGreenCircleDotIcon"
 }
 ,
 {
@@ -57,7 +64,8 @@
 	"dataset_id": "1388",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#darkBlueeCircleDotIcon"
 }
 ,
 {
@@ -65,7 +73,8 @@
 	"dataset_id": "1387",
 	"description": "",
 	"is_active": "1",
-	"marker":"point_green.gif"
+	"marker":"point_green.gif",
+	"ya_preset": "islands#blueCircleDotIcon"
 }
 ]
 
