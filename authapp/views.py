@@ -78,6 +78,34 @@ def register(request):
 
 @login_required()
 def profile(request):
+    if request.method == 'POST':
+        # Get form values
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+
+        context = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email
+        }
+
+        if len(first_name) > 30:
+            messages.error(request, 'Имя должно быть не более 30 символов')
+            return render(request, 'authapp/profile.html', context)
+
+        if len(last_name) > 150:
+            messages.error(request, 'Фамилия должная быть не более 150 символов')
+            return render(request, 'authapp/profile.html', context)
+
+        user = User.objects.filter(username=request.user.username).first()
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+        messages.success(request, 'Данные пользователя были сохранены')
+        return redirect('auth:user_profile')
+
     return render(request, 'authapp/profile.html')
 
 
