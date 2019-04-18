@@ -48,47 +48,65 @@
                             <small>OPEN LISTING IN MAP</small>
                         </a>
                     </div>
-                    <div class="row detail-checkbox-wrap">
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i20" type="checkbox">
-                                    <label for="i20">Bike Parking</label>
+                    <!-- exp-->
+                    <div class="md-checkbox">
+                                        <input id="sel_all" type="checkbox">
+                                        <label for="i25">Выбрать</label>
+                                    </div>
+                    <!--//exp-->
+                    
+                        <div class="row detail-checkbox-wrap">
+                        <fieldset id="venuesFilterAdm"> 
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="detail-checkbox">
+                                    <div class="md-checkbox">
+                                        <input id="adm1" data-ftype="adm_area" data-value="1" type="checkbox">
+                                        <label for="adm1">Южный административный округ</label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input id="adm2" data-ftype="adm_area" data-value="2" type="checkbox">
+                                        <label for="adm2">Северо-Восточный административный округ</label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input id="adm3" data-ftype="adm_area" data-value="3" type="checkbox">
+                                        <label for="adm3">Юго-Восточный административный округ</label>
+                                    </div>
                                 </div>
-                                <div class="md-checkbox">
-                                    <input id="i21" type="checkbox">
-                                    <label for="i21">Wireless Internet</label>
+                            </div>
+                        </fieldset>
+                        <fieldset id="venuesFilterDistrict">
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="detail-checkbox">
+                                    <div class="md-checkbox">
+                                        <input id="district1" data-ftype="district" data-value="1" type="checkbox">
+                                        <label for="district1">Район 1</label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input id="district2" data-ftype="district" data-value="2" type="checkbox">
+                                        <label for="district2">Район 2</label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input id="district3" data-ftype="district" data-value="3" type="checkbox">
+                                        <label for="district3">Район 3</label>
+                                    </div>
                                 </div>
+                            </div>
+                        </fieldset>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="detail-checkbox">
+                                    <div class="md-checkbox">
+                                        <input id="i24" data-ftype="district" data-value="1"type="checkbox">
+                                        <label for="i24">Special</label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input id="i25" data-ftype="district" data-value="2" type="checkbox">
+                                        <label for="i25">Выбрать</label>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i22" type="checkbox">
-                                    <label for="i22">Smoking Allowed</label>
-                                </div>
-                                <div class="md-checkbox">
-                                    <input id="i23" type="checkbox">
-                                    <label for="i23">Street Parking</label>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i24" type="checkbox">
-                                    <label for="i24">Special</label>
-                                </div>
-                                <div class="md-checkbox">
-                                    <input id="i25" type="checkbox">
-                                    <label for="i25">Accepts Credit cards</label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    </fieldset>    
                     <div class="row">
                         <div class="col-md-6 card-2">
                             <!-- card-1 -->

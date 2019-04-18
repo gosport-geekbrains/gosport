@@ -12,7 +12,7 @@ function init () {
             clusterize: true,
             // ObjectManager принимает те же опции, что и кластеризатор.
             gridSize: 70,
-            clusterDisableClickZoom: true,
+            clusterDisableClickZoom: false,
             clusterIconLayout: "default#pieChart"
         });
 
@@ -44,18 +44,7 @@ function init () {
     ]
 
 
-    // Создадим 5 пунктов выпадающего списка.
-//    var listBoxItems = ['893', '1251', '898', '886', '885', '917','912','1388','1387']
- //       .map(function (title) {
-//            return new ymaps.control.ListBoxItem({
-//                data: {
-//                    content: title
-//                },
-//                state: {
-//                    selected: true
- //               }
- //           })
- //       }),
+
         // Теперь создадим список, содержащий 5 пунктов.
         listBoxControl = new ymaps.control.ListBox({
             data: {
@@ -94,6 +83,79 @@ function init () {
             return categories[content]   //
         }
     }
+    function checkState() {
+        var checkAdm = [];
+        var checkDistrict = [];
+        var ids = $("#venuesFilterAdm :checkbox").map(function () {
+            
+            if ($(this).prop('checked')) {
+                checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"')
+                //console.log(this.dataset.ftype)
+                //console.log(this.dataset.value)
+            }
+
+            //console.log(this.id)
+            //alert(this.dataset.ftype)
+            //return check;
+            //console.log(check)
+        }).get();
+        //console.log(check)
+
+        var ids1 = $("#venuesFilterDistrict :checkbox").map(function () {
+
+            if ($(this).prop('checked')) {
+                checkDistrict.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"')
+                   console.log(this.dataset.ftype)
+                   console.log(this.dataset.value)
+            }
+
+            //console.log(this.id)
+            //alert(this.dataset.ftype)
+            //return check;
+            //console.log(check)
+        }).get();
+        //console.log(checkAdm)
+        //console.log(checkDistrict)
+        //console.log(check.join(" && "))
+        //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
+        strFilter = checkAdm.join(" || ")
+        objectManager.setFilter(strFilter)
+        console.log(strFilter)
+        //objectManager.setFilter('(properties.adm_area=="2") && (properties.district=="1")')
+        //objectManager.setFilter("(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")")
+
+        if ($('#adm1').prop('checked')) {
+        //    console.log(event.target.id)
+        //    objectManager.setFilter('properties.adm_area == "adm1"')
+        //    objectManager.setFilter(function (object) {
+                 
+         //       return object.properties.adm_area == event.target.id;
+        //console.log(check)
+        //    });
+        } else {
+            objectManager.setFilter()
+        }
+    }
+
+    function selectAll() {
+
+        
+    }
+
+    function mapFilter() {
+        filterString = []
+        objectManager.setFilter()
+    }
+    
+$('#adm1').click(checkState);
+$('#adm2').click(checkState);
+$('#adm3').click(checkState);
+$('#sel_all').click(selectAll);
+$('#district1').click(checkState);
+$('#district2').click(checkState);
+$('#district3').click(checkState);
+
+
 
 
     $.ajax({

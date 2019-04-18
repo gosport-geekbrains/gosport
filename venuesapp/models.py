@@ -2,6 +2,8 @@ from django.db import models
 
 from django.utils.timezone import now
 from datetime import timedelta
+from datetime import datetime 
+import json
 
 # Create your models here.
 
@@ -62,6 +64,7 @@ class District(models.Model):
 
 
 class GeoObject(models.Model):
+
     global_id = models.PositiveIntegerField(
         verbose_name='Идентификатор объекта')
     object_type = models.ForeignKey(
@@ -140,30 +143,87 @@ class GeoObject(models.Model):
     equipment_rental_comments = models.TextField(
         verbose_name='Информация о прокате', blank=True, null=True)
     create_date = models.DateTimeField(verbose_name='Дата создания', default=now)
-    
-#    def working_hours(self:
+    last_updated = models.DateTimeField(verbose_name='Дата последнего изменения', default=now)
+    has_manual_cahanges = models.BooleanField(verbose_name='Признак наличия ручной правки', default=False)
+
+
+#    #возвращает рабочие часы в текущий сезон в виде строки Пн: ... 
+#    def working_hours(self):
 #        pass
+    #возвращает текущий сезон
+    def get_current_season(self):
+
+        current_date = datetime.strptime("{:%d.%m}".format(datetime.now()), "%d.%m")
+
+        if self.usage_period_winter:
+            str_date_interval_winter = self.usage_period_winter
+            winter_interval = (self.usage_period_winter).split("-")
+            winter_interval_start =  datetime.strptime(winter_interval[0],"%d.%m")
+            winter_interval_end = datetime.strptime(winter_interval[0], "%d.%m")
+            winter_interval_ny = datetime.strptime("1.1", "%d.%m")
+        else:
+            return 'summer'
+
+        if self.usage_period_summer:
+            str_date_interval_summer = self.usage_period_summer
+            summer_interval = (self.usage_period_summer).split("-")
+            summer_interval_start = datetime.strptime(summer_interval[0], "%d.%m")
+            summer_interval_end = datetime.strptime(summer_interval[1],"%d.%m")
+        else:
+            return 'winter'
+    
+        if ((winter_interval_start < current_date <= winter_interval_ny) or (winter_interval_ny <= current_date <= winter_interval_end)):
+            return 'winter'
+        elif (summer_interval_start <= current_date <= summer_interval_end):
+            return 'summer'
+
+    def get_name(self):
+        month = now().month
+        if ((not self.name_summer) and (not self.name_winter)):
+            return self.object_name
+        elif (4 <= month < 11) and self.name_summer:
+            return self.name_summer
+        else:
+            return self.name_winter
 
     
-    #def __str__(self):
-    #    return self.name
+    def get_working_hours(self):
+        month = now().month
+
+        if ((not self.working_hours_winter) and (not self.working_hours_summer)):
+            return False
+        elif (4 <= month < 11) and self.working_hours_summer:
+            return get_str_working_hours(self.working_hours_summer)
+        else:
+            return get_str_working_hours(self.working_hours_winter)
+
+
+
+    #возвращате имя в зависимости от текщего сезона
+    #нужно предсмотреть вариант выдачи летнего названия в случае, если указан 
+    # период с 1.1 по 31.12, как вариант для интервала с 1.4-1.11. Выдавать зимнее название, если летнее пустое и наоборот. 
+    def venue_name(self):
+        pass
 
 
 class Photo(models.Model):
+
+    SEASONS = (
+            ('S', 'Лето'),
+            ('W', 'Зима'),
+        )
     geo_object = models.ForeignKey(
         GeoObject, verbose_name='Объект', on_delete=models.SET_NULL, null=True)
     #event = models.ForeignKey(Event, verbose_name='Событие', on_delete=models.SET_NULL, blank=True
     photo = models.ImageField(verbose_name='Фотография', upload_to='photo')
-    #author =
-    #upload_date
+    #author = 
+    season = models.CharField(verbose_name='Сезон', max_length=20, choices=SEASONS, default='W')
     is_active = models.BooleanField(
         verbose_name='Признак активности', default=True)
     description = models.TextField(verbose_name='Описание фото', blank=True)
     create_date = models.DateTimeField(verbose_name='Дата загрузки', default=now)
-    #owner
-
-    def __str__(self):
-        return self.name
+    api_id = models.CharField(verbose_name='Идентификатор в API', max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=20,blank=True, null=True)
 
 
 class Dataset(models.Model):
@@ -179,3 +239,16 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.name
+
+
+def get_str_working_hours(working_hours):
+    result = ''
+    working_hours = working_hours.replace("\'", "\"")
+    days = json.loads(working_hours)
+
+    for cur_day in days:
+  
+        result = "{result} {day}: {hours}\n".format(
+            result=result, day=cur_day['DayOfWeek'], hours=cur_day['Hours'])
+
+    return result

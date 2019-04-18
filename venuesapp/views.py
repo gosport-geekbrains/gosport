@@ -46,29 +46,30 @@ def str_to_boolean(str):
     else:
         return False
 
+
+#загрузка фотографии по ссылке, если ее нет в папке
 def get_photo_from_api(filename):
    
-   url = settings.MOS_API_IMG_SRC.format(filename)
-   result_file_path = settings.MOS_API_IMG_PATH+"\\"+filename+'.jpg'
+    url = settings.MOS_API_IMG_SRC.format(filename)
+    result_file_path = os.path.join(
+        settings.DOWNLOADED_PHOTO_PATH, filename+'.jpg')
 
-   if os.path.exists(result_file_path) == False:
+    if os.path.exists(result_file_path) == False:
        
-       response = requests.get(url)
-       if response.status_code == 200:
+        response = requests.get(url)
+        if response.status_code == 200:
             with open(result_file_path, 'wb') as imgfile:
                 imgfile.write(response.content)
-       print(result_file_path, " downloaded")
-   else:
-       print(result_file_path, " exists")
-   return settings.PHOTOS_PATH + '/' + filename+'.jpg'
+       #print(result_file_path, " downloaded")
+    else:
+       pass #print(result_file_path, " exists")
+    return os.path.join(settings.DOWNLOADED_PHOTO_PATH, filename+'.jpg')
 
-def get_season():
-        #сверить дату с usage для определения того, какие данные выдавать - летние или зимние
-        pass
 
 def add_venue(request):
     return render(request, 'venuesapp/add_venue.html')
 
+#
 def get_map_objects(request):
 
     datasets = Category.objects.filter(is_active=True)
@@ -77,4 +78,7 @@ def get_map_objects(request):
     }
 
     return render(request, 'venuesapp/js/objects_manager.js', content)
+
+
+
 

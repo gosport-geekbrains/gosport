@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 import requests
@@ -21,9 +22,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-
+        
         geo_objects = GeoObject.objects.select_related().filter(is_active=True)
-
 
         geo_object_json = {}
 
@@ -33,17 +33,20 @@ class Command(BaseCommand):
         json_result['features'] = []
         #json_file.write(' { "type" : "FeatureCollection", "features" : [')    
         for geo_object in geo_objects:
+            #print(geo_object.global_id,' ', geo_object.get_current_season())
+            #print(geo_object.global_id,  ' ', geo_object.get_working_hours())
             geo_object_json = {}
             geo_object_json['type'] = "Feature"
             geo_object_json['id'] = geo_object.global_id
             geo_object_json['geometry'] = {
-                'coordinates': [geo_object.lat, geo_object.lon], 
+                'coordinates': [round(geo_object.lat,6), round(geo_object.lon,6)], 
                 'type': 'Point'
             }
             geo_object_json['properties'] = {
-                'balloonContentHeader': geo_object.name_winter,
-                'balloonContentBody': "<a href='/venues/{id}/'>{object_name}</a>".format(
+                'balloonContentHeader': "<a href='/venues/{id}/'>{object_name}</a>".format(
                     object_name=geo_object.object_name, id=geo_object.global_id),
+                #'balloonContentBody': "<a href='/venues/{id}/'>{object_name}</a>".format(
+                #    object_name=geo_object.object_name, id=geo_object.global_id),
                 'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
                 }
             if options['detail']:
@@ -51,13 +54,14 @@ class Command(BaseCommand):
                 #print(AdmArea.objects.get(name=geo_object.adm_area).id)
 
                 geo_object_json['properties'].update({
-                    'adm_area': geo_object.adm_area_id,
-                    'district': geo_object.district_id
+                    'adm_area': '{}'.format(geo_object.adm_area_id),
+                    'district': '{}'.format(geo_object.district_id)
                 })
-
-            geo_object_json['options'] = {'iconImageHref': '/static/images/map_markers/{}'.format(
-                Category.objects.get(name=geo_object.object_type).marker),
-                'preset': Category.objects.get(name=geo_object.object_type).ya_preset}
+            geo_object_json['options'] = {
+            # 'iconImageHref': '/static/images/map_markers/{}'.format(
+            #    Category.objects.get(name=geo_object.object_type).marker),
+                'preset': Category.objects.get(name=geo_object.object_type).ya_preset
+            }
             #print(geo_object_json)
             json_result['features'].append(geo_object_json)
         #    json_file.write(json.dumps(geo_object_json, ensure_ascii=False))

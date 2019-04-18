@@ -128,10 +128,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "gosport_project/static"),
 ]
 
+#ключ для дочступа к API по объектам
 MOS_API_KEY = '3af1c4bc45500ff00ffc747f15ea5262'
-MOS_API_IMG_PATH = os.path.join(BASE_DIR, 'gosport_project', 'static', 'images','photo')
+#Место хранения скачанных фотографий
+DOWNLOADED_PHOTO_PATH = os.path.join(BASE_DIR, 'gosport_project', 'static', 'images','photo')
+#источник фотографий
 MOS_API_IMG_SRC = 'https://op.mos.ru/MEDIA/showFile?id={}'
+#место хранения генерируемого json с объектами
 YANDEX_JSON_FILE = os.path.join(BASE_DIR, 'gosport_project', 'static', 'json', 'data.json')
 PHOTOS_PATH = 'static/images/photo'
-
+#api яндекс карт
 YANDEX_MAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'

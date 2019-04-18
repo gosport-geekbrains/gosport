@@ -61,9 +61,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>{{ venue.object_name }}</h5>
-                    <p><span>$$$</span>$$</p>
-                    <p class="reserve-description">{{ venue.name_winter }}</p>
+                    <h5>{{ venue.object_name }}</h5> </br>
+                    <p class="reserve-description">{{ venue.get_name }}</p>
+                    {% if venue.paid %}
+                        <br>
+                    <p><span>$$$</span> {{ venue.paid }}</p>
+                    <p> {{ venue.paid_comment }}
+                    {% endif %}
+                    
                 </div>
                 <div class="col-md-6">
                     <div class="reserve-seat-block">
@@ -272,7 +277,7 @@
                         {% if venue.working_hours_winter %}
                         <div class="address">
                             <span class="icon-clock"></span>
-                            <p>{{ venue.working_hours_winter }} </p>
+                            <p>{{ venue.get_working_hours|linebreaksbr }} </p>
                             <!-- <a href="#" class="featured-open">OPEN NOW</a> -->
                         </div>
                         {% endif %}

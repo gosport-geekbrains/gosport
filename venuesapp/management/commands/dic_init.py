@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 import requests
 import json
 
@@ -32,15 +32,20 @@ class Command(BaseCommand):
         for dataset in datasets:
 
             new_dataset = Dataset(**dataset)
+            
+            if Dataset.objects.filter(name=dataset['name']).exists():
+                new_dataset['pk'] = Dataset.objects.get(name=dataset['name'].pk)
             new_dataset.save()
             
             new_category = Category(**dataset)
+            if Category.objects.filter(name=dataset['name']).exists():
+                new_dataset['pk'] = Category.objects.get(
+                    name=dataset['name'].pk)
             new_category.save()
 
-            #dataset['dataset_id'] = "886"
-
             geo_objects = get_json_from_api(dataset['dataset_id'], STR_FEATURES)
-
+            
+            #на случай сохранения данных датасета в json
             #with open(dataset['dataset_id']+'.json', 'w', encoding='utf-8') as f:
             #    json.dump(geo_objects, f, ensure_ascii=False)
            
@@ -48,34 +53,27 @@ class Command(BaseCommand):
             for geo_object in geo_objects['features']:
                 venue = {}
 
-                #test of admArea dict
-                try:
-                    venue['adm_area'] = AdmArea.objects.get(
-                        name=geo_object['properties']['Attributes']['AdmArea'])
-                except:
-                    new_adm_area = AdmArea(
-                        name=geo_object['properties']['Attributes']['AdmArea'])
-                    new_adm_area.save()
-                    venue['adm_area'] = AdmArea.objects.get(
-                        name=geo_object['properties']['Attributes']['AdmArea'])
-               
-                #test of Dstrict dict
-                try:
-                    venue['district'] = District.objects.get(
-                        name=geo_object['properties']['Attributes']['District'])
-                except:
-                    new_district = District(
-                        name=geo_object['properties']['Attributes']['District'])
-                    new_district.save()
-                    venue['district'] = District.objects.get(
-                        name=geo_object['properties']['Attributes']['District'])
-
                 venue['global_id'] = geo_object['properties']['Attributes']['global_id']
+
+                if GeoObject.objects.filter(global_id=venue['global_id']).exists():
+                    venue['pk'] = GeoObject.objects.get(global_id=venue['global_id']).global_id
+
+                if AdmArea.objects.filter(name=geo_object['properties']['Attributes']['AdmArea']).exists() == False:
+                    new_adm_area = AdmArea(name=geo_object['properties']['Attributes']['AdmArea'])
+                    new_adm_area.save()
+                venue['adm_area'] = AdmArea.objects.get(name=geo_object['properties']['Attributes']['AdmArea'])
+
+                if District.objects.filter(name=geo_object['properties']['Attributes']['District']).exists() == False:
+                    new_district = District(name=geo_object['properties']['Attributes']['District'])
+                    new_district.save()
+                    venue['district'] = District.objects.get(name=geo_object['properties']['Attributes']['District'])
+
+
                 
                 _category_type = Category.objects.get(name=dataset['name'])
                 venue['object_type'] = _category_type
                 venue['object_name'] = geo_object['properties']['Attributes']['ObjectName']
-                
+                #если заданы зимние параметры - обновляем/заполняем их, не трогая летние
                 if 'NameWinter' in geo_object['properties']['Attributes']:
                     venue['name_winter'] = geo_object['properties']['Attributes']['NameWinter']
                     venue['working_hours_winter'] = geo_object['properties']['Attributes']['WorkingHoursWinter']
@@ -83,8 +81,7 @@ class Command(BaseCommand):
                     venue['surface_type_winter'] = geo_object['properties']['Attributes']['SurfaceTypeWinter']
                     venue['usage_period_winter'] = geo_object['properties']['Attributes']['UsagePeriodWinter']
 
-                
-
+                #Если заданы летние параметры обновляем/заполняем их, не трогая зиние
                 if 'NameSummer' in geo_object['properties']['Attributes']:
                     venue['name_summer'] = geo_object['properties']['Attributes']['NameSummer']
                     venue['working_hours_summer'] = geo_object['properties']['Attributes']['WorkingHoursSummer']
@@ -122,19 +119,23 @@ class Command(BaseCommand):
                 new_geo_object = GeoObject(**venue)
                 new_geo_object.save()
 
-                 
-                try:
-                    new_photo = {}
-                    #нужна проверка наличия файла в папке перед скачкой
+                _geo_object = GeoObject.objects.get(global_id=venue['global_id'])
 
-                    new_photo['photo'] = get_photo_from_api(
-                        geo_object['properties']['Attributes']['PhotoWinter'][0]['Photo'])
-                    _geo_object = GeoObject.objects.get(global_id=venue['global_id'])
-                    
-                    new_photo['geo_object'] = _geo_object
-                    
-                    photo = Photo(**new_photo)
-                    photo.save()
-                except:
-                    pass
-                
+                if 'PhotoWinter' in geo_object['properties']['Attributes']:
+                    #у нас зимняя фотография
+                    photos = geo_object['properties']['Attributes']['PhotoWinter']
+                    season = 'W'
+                    photos_in_base = list(Photo.objects.filter(geo_object=_geo_object).values_list('api_id',flat=True))
+                    for photo in photos:
+                        if photo['Photo'] in photos_in_base:
+                            get_photo_from_api(photo.api_id)
+                        else:
+                            new_photo = {}
+                            new_photo['geo_object'] = _geo_object
+                            new_photo['season'] = 'W'
+                            new_photo['api_id'] = photo['Photo']
+                            new_photo['photo'] = get_photo_from_api(photo['Photo'])
+
+                            new_photo_obj = Photo(**new_photo)
+                            new_photo_obj.save()
+
