@@ -16,6 +16,17 @@ function init () {
             clusterIconLayout: "default#pieChart"
         });
 
+         myMap.events.add('boundschange', function(e){
+        if (e.get('newZoom') !== e.get('oldZoom')) {
+            //console.log(e.get('newZoom'))
+            //console.log(myMap.getBounds())
+        }
+    });
+
+    //getVisibleObjects() {
+    //
+    //}
+
     // Чтобы задать опции одиночным объектам и кластерам,
     // обратимся к дочерним коллекциям ObjectManager.
     //objectManager.objects.options.set('preset', 'islands#greenDotIcon');
@@ -91,14 +102,10 @@ function init () {
     
             if ($(this).prop('checked')) {
                 checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"')
-                //console.log(this.dataset.ftype)
-                //console.log(this.dataset.value)
+
             }
 
-            //console.log(this.id)
-            //alert(this.dataset.ftype)
-            //return check;
-            //console.log(check)
+
         }).get();
         //console.log(check)
 
@@ -110,33 +117,15 @@ function init () {
                    console.log(this.dataset.value)
             }
 
-            //console.log(this.id)
-            //alert(this.dataset.ftype)
-            //return check;
-            //console.log(check)
+
         }).get();
-        //console.log(checkAdm)
-        //console.log(checkDistrict)
-        //console.log(check.join(" && "))
+
         //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
         strFilter = checkAdm.join(" || ")
        // strFilter = '(properties.adm_area=="2" || properties.adm_area=="3") && (properties.district=="30")'
         objectManager.setFilter(strFilter)
-        console.log(strFilter)
-        //objectManager.setFilter('(properties.adm_area=="2") && (properties.district=="1")')
-        //objectManager.setFilter("(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")")
+        //console.log(strFilter)
 
-        if ($('#adm1').prop('checked')) {
-        //    console.log(event.target.id)
-        //    objectManager.setFilter('properties.adm_area == "adm1"')
-        //    objectManager.setFilter(function (object) {
-                 
-         //       return object.properties.adm_area == event.target.id;
-        //console.log(check)
-        //    });
-        } else {
-            //objectManager.setFilter()
-        }
     }
 
     function selectAll() {
@@ -170,6 +159,11 @@ $('#sel_all').click(selectAll);
         objectManager.add(data);
         //checkState;
     });
+
+
+
+
+
 window.onload = checkState;
 
 }
