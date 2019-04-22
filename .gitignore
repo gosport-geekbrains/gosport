@@ -2,6 +2,8 @@
 .vscode
 venv
 gosport_project/static/images/photo/
+media/images/photo
+media\images\photo
 venuesapp\static\images\photo
 gosport_project\static\images\photo
 venuesapp/static/images/photo/

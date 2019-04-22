@@ -84,10 +84,11 @@ function init () {
         }
     }
     function checkState() {
+        console.clear();
         var checkAdm = [];
         var checkDistrict = [];
         var ids = $("#venuesFilterAdm :checkbox").map(function () {
-            
+    
             if ($(this).prop('checked')) {
                 checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"')
                 //console.log(this.dataset.ftype)
@@ -119,6 +120,7 @@ function init () {
         //console.log(check.join(" && "))
         //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
         strFilter = checkAdm.join(" || ")
+       // strFilter = '(properties.adm_area=="2" || properties.adm_area=="3") && (properties.district=="30")'
         objectManager.setFilter(strFilter)
         console.log(strFilter)
         //objectManager.setFilter('(properties.adm_area=="2") && (properties.district=="1")')
@@ -133,7 +135,7 @@ function init () {
         //console.log(check)
         //    });
         } else {
-            objectManager.setFilter()
+            //objectManager.setFilter()
         }
     }
 
@@ -146,22 +148,28 @@ function init () {
         filterString = []
         objectManager.setFilter()
     }
-    
-$('#adm1').click(checkState);
-$('#adm2').click(checkState);
-$('#adm3').click(checkState);
+//adm_area 
+{% for adm_area in adm_areas %}
+$('#admArea{{ adm_area.pk }}').click(checkState)
+{% endfor %}
+
+//districts
+{% for district in districts %}
+    $('#district{{ district.pk }}').click(checkState)
+
+{% endfor %}
+
 $('#sel_all').click(selectAll);
-$('#district1').click(checkState);
-$('#district2').click(checkState);
-$('#district3').click(checkState);
 
 
 
 
     $.ajax({
-        url: "/static/json/data.json"
+        url: "{{ venues_json }}"
     }).done(function(data) {
         objectManager.add(data);
+        //checkState;
     });
+window.onload = checkState;
 
 }

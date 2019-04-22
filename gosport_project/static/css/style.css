@@ -765,6 +765,12 @@ footer {
 .contact-map {
   min-height: 500px; }
 
+#map_s {
+    width:290px;
+    height:290px;
+    display:block;
+    }
+
 .map-icon {
   display: none;
   border: 1px solid #737882;
@@ -1711,8 +1717,12 @@ select.form-control:not([size]):not([multiple]) {
 
 .md-checkbox {
   position: relative;
+  margin: 5px;
+  /*
+  original:
   margin: 0 0 10px; }
-
+  */
+}
 .md-checkbox label {
   cursor: pointer;
   color: #adadad;

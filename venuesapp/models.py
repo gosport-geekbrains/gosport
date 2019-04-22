@@ -113,12 +113,15 @@ class GeoObject(models.Model):
         verbose_name='Наличие медицинской помощи', default=False)
     has_music = models.BooleanField(
         verbose_name='Наличие музыки', default=False)
+    
     disability_friendly = models.CharField(
         verbose_name='Приспособлено для инвалидов', max_length=50, blank=True, null=True)
     lighting = models.CharField(
         verbose_name='Освещение', max_length=50, blank=True, null=True)
     paid = models.CharField(
         verbose_name='Платное посещение', max_length=50, blank=True, null=True)
+    is_paid = models.BooleanField(verbose_name='Булевая платность', default=False)
+    
     lat = models.FloatField(verbose_name='Широта')
     lon = models.FloatField(verbose_name='Долгота')
     geo_data = models.TextField(verbose_name='Гео-JSON')

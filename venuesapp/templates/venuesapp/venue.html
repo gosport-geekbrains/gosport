@@ -257,7 +257,8 @@
                 </div>
                 <div class="col-md-4 responsive-wrap">
                     <div class="contact-info">
-                        <img src="/static/img/map.jpg" class="img-fluid" alt="#">
+                        <!-- <<img src="/static/img/map.jpg" class="img-fluid" alt="#">> -->
+                        <div id="map_s"></div>
                         <div class="address">
                             <span class="icon-location-pin"></span>
                             <p> {{ venue.adm_area }} <br> {{ venue.district }} <br> {{ venue.address }}</p>
@@ -352,4 +353,37 @@
                 });
             }
     </script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU&amp;apikey={{yandex_api_key}}" type="text/javascript"></script>'
+
+    <script>
+
+	ymaps.ready(init);
+
+	function init() {
+    var myMap = new ymaps.Map("map_s", {
+            center: [{{ venue.lat }} , {{ venue.lon }}],
+            zoom: 15
+        }, {
+            searchControlProvider: 'yandex#search'
+        }), obj;
+
+		    obj = ymaps.geoQuery({
+        type: 'FeatureCollection',
+        features: [{
+                type: 'Feature',
+                properties: {
+                    balloonContent: '{{ venue.get_name }}'
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [{{ venue.lat }} , {{ venue.lon }}]
+                }
+            }    ]
+    // Сразу добавим точки на карту.
+    }).addToMap(myMap);
+	}
+	</script>
+
+    </script>
+
 {% endblock js %}

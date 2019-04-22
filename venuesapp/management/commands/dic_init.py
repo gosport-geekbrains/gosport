@@ -24,7 +24,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         datasets = load_from_json('datasets')
+        
         Dataset.objects.all().delete()
+        AdmArea.objects.all().delete
+        District.objects.all().delete
         Category.objects.all().delete()
         GeoObject.objects.all().delete()
         Photo.objects.all().delete()
@@ -34,13 +37,14 @@ class Command(BaseCommand):
             new_dataset = Dataset(**dataset)
             
             if Dataset.objects.filter(name=dataset['name']).exists():
-                new_dataset['pk'] = Dataset.objects.get(name=dataset['name'].pk)
+      
+                new_dataset = Dataset.objects.get(name=dataset['name'])
             new_dataset.save()
             
             new_category = Category(**dataset)
             if Category.objects.filter(name=dataset['name']).exists():
-                new_dataset['pk'] = Category.objects.get(
-                    name=dataset['name'].pk)
+
+                new_category = Category.objects.get(name=dataset['name'])
             new_category.save()
 
             geo_objects = get_json_from_api(dataset['dataset_id'], STR_FEATURES)
@@ -56,17 +60,22 @@ class Command(BaseCommand):
                 venue['global_id'] = geo_object['properties']['Attributes']['global_id']
 
                 if GeoObject.objects.filter(global_id=venue['global_id']).exists():
-                    venue['pk'] = GeoObject.objects.get(global_id=venue['global_id']).global_id
+                    venue['pk'] = GeoObject.objects.get(global_id=venue['global_id']).pk
 
-                if AdmArea.objects.filter(name=geo_object['properties']['Attributes']['AdmArea']).exists() == False:
-                    new_adm_area = AdmArea(name=geo_object['properties']['Attributes']['AdmArea'])
+
+                adm_area = geo_object['properties']['Attributes']['AdmArea'].replace('административный округ', '').strip()
+                if AdmArea.objects.filter(name=adm_area).exists() == False:
+                  
+                    new_adm_area = AdmArea(name=adm_area)
                     new_adm_area.save()
-                venue['adm_area'] = AdmArea.objects.get(name=geo_object['properties']['Attributes']['AdmArea'])
-
-                if District.objects.filter(name=geo_object['properties']['Attributes']['District']).exists() == False:
-                    new_district = District(name=geo_object['properties']['Attributes']['District'])
+                venue['adm_area'] = AdmArea.objects.get(name=adm_area)
+                
+                district = geo_object['properties']['Attributes']['District'].replace('район', '')
+                district = district.strip()
+                if District.objects.filter(name=district).exists() == False:
+                    new_district = District(name=district)
                     new_district.save()
-                    venue['district'] = District.objects.get(name=geo_object['properties']['Attributes']['District'])
+                    venue['district'] = District.objects.get(name=district)
 
 
                 
@@ -111,6 +120,10 @@ class Command(BaseCommand):
                 venue['disability_friendly'] = geo_object['properties']['Attributes']['DisabilityFriendly']
                 venue['lighting'] = geo_object['properties']['Attributes']['Lighting']
                 venue['paid'] = geo_object['properties']['Attributes']['Paid']
+                if venue['paid'] == ('платно'):
+                    venue['is_paid'] = True
+                elif venue['paid'] == ('бесплатно'):
+                    venue['is_paid'] = False
                 venue['paid_comments'] = geo_object['properties']['Attributes']['PaidComments']
                 venue['lat'] = geo_object['geometry']['coordinates'][1]
                 venue['lon'] = geo_object['geometry']['coordinates'][0]
@@ -126,9 +139,11 @@ class Command(BaseCommand):
                     photos = geo_object['properties']['Attributes']['PhotoWinter']
                     season = 'W'
                     photos_in_base = list(Photo.objects.filter(geo_object=_geo_object).values_list('api_id',flat=True))
+                    
                     for photo in photos:
                         if photo['Photo'] in photos_in_base:
-                            get_photo_from_api(photo.api_id)
+                            
+                            get_photo_from_api(photo['Photo'])
                         else:
                             new_photo = {}
                             new_photo['geo_object'] = _geo_object
@@ -139,3 +154,24 @@ class Command(BaseCommand):
                             new_photo_obj = Photo(**new_photo)
                             new_photo_obj.save()
 
+                if 'PhotoSummer' in geo_object['properties']['Attributes']:
+                    #у нас зимняя фотография
+                    photos = geo_object['properties']['Attributes']['PhotoWinter']
+                    season = 'W'
+                    photos_in_base = list(Photo.objects.filter(
+                        geo_object=_geo_object).values_list('api_id', flat=True))
+
+                    for photo in photos:
+                        if photo['Photo'] in photos_in_base:
+
+                            get_photo_from_api(photo['Photo'])
+                        else:
+                            new_photo = {}
+                            new_photo['geo_object'] = _geo_object
+                            new_photo['season'] = 'S'
+                            new_photo['api_id'] = photo['Photo']
+                            new_photo['photo'] = get_photo_from_api(
+                                photo['Photo'])
+
+                            new_photo_obj = Photo(**new_photo)
+                            new_photo_obj.save()

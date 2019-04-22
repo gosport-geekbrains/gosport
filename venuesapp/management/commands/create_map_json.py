@@ -54,8 +54,9 @@ class Command(BaseCommand):
                 #print(AdmArea.objects.get(name=geo_object.adm_area).id)
 
                 geo_object_json['properties'].update({
-                    'adm_area': '{}'.format(geo_object.adm_area_id),
-                    'district': '{}'.format(geo_object.district_id)
+                    'adm': '{}'.format(geo_object.adm_area_id),
+                    'dist': '{}'.format(geo_object.district_id),
+                    
                 })
             geo_object_json['options'] = {
             # 'iconImageHref': '/static/images/map_markers/{}'.format(
@@ -68,7 +69,7 @@ class Command(BaseCommand):
         #json_file.write('}')
         #print(json_result)
         
-        with open(settings.YANDEX_JSON_FILE, 'w', encoding='utf-8') as f:
+        with open(settings.VENUES_JSON_PATH, 'w', encoding='utf-8') as f:
             json.dump(json_result, f, ensure_ascii=False)
             #f.write(str(json_result))
             #pass

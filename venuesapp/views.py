@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import get_object_or_404, get_list_or_404
-from venuesapp.models import Category, Dataset, GeoObject, Photo
+from venuesapp.models import Category, Dataset, GeoObject, Photo, AdmArea, District
 import os, json, requests
 
 JSON_PATH = 'venuesapp/json'
 
 def venues_map(request):
-    content = {'yandex_api_key': settings.YANDEX_MAP_API_KEY}
+    content = {'yandex_api_key': settings.YANDEX_MAP_API_KEY,
+                'adm_areas': AdmArea.objects.filter(is_active=True).order_by('name'),
+                'districts': District.objects.filter(is_active=True).order_by('name')}
     return render(request, 'venuesapp/venues_map.html', content)
 
 
@@ -21,7 +23,8 @@ def venue(request, pk):
 
     content = {'title': venue.object_name,
                'venue': venue,
-                'venue_photos': venue_photos }
+                'venue_photos': venue_photos,
+                'yandex_api_key': settings.YANDEX_MAP_API_KEY}
     return render(request, 'venuesapp/venue.html', content)
 
     
@@ -60,10 +63,10 @@ def get_photo_from_api(filename):
         if response.status_code == 200:
             with open(result_file_path, 'wb') as imgfile:
                 imgfile.write(response.content)
-       #print(result_file_path, " downloaded")
+        print(result_file_path, " downloaded")
     else:
-       pass #print(result_file_path, " exists")
-    return os.path.join(settings.DOWNLOADED_PHOTO_PATH, filename+'.jpg')
+        print(result_file_path, " exists")
+    return settings.MEDIA_PHOTO_PATH+filename+'.jpg'
 
 
 def add_venue(request):
@@ -71,14 +74,20 @@ def add_venue(request):
 
 #
 def get_map_objects(request):
-
+    
     datasets = Category.objects.filter(is_active=True)
+    adm_areas = AdmArea.objects.filter(is_active=True)
+    districts = District.objects.filter(is_active=True)
     content = {
-        'datasets': datasets
+        'datasets': datasets,
+        'adm_areas': adm_areas,
+        'districts': districts,
+        'venues_json': settings.VENUES_JSON_FILE
     }
 
     return render(request, 'venuesapp/js/objects_manager.js', content)
 
 
-
+def get_map_object(request, pk):
+    pass
 

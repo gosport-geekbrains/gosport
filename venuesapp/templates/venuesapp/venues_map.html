@@ -55,58 +55,70 @@
                                     </div>
                     <!--//exp-->
                     
-                        <div class="row detail-checkbox-wrap">
-                        <fieldset id="venuesFilterAdm"> 
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                <div class="detail-checkbox">
-                                    <div class="md-checkbox">
-                                        <input id="adm1" data-ftype="adm_area" data-value="1" type="checkbox">
-                                        <label for="adm1">Южный административный округ</label>
-                                    </div>
-                                    <div class="md-checkbox">
-                                        <input id="adm2" data-ftype="adm_area" data-value="2" type="checkbox">
-                                        <label for="adm2">Северо-Восточный административный округ</label>
-                                    </div>
-                                    <div class="md-checkbox">
-                                        <input id="adm3" data-ftype="adm_area" data-value="3" type="checkbox">
-                                        <label for="adm3">Юго-Восточный административный округ</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset id="venuesFilterDistrict">
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                <div class="detail-checkbox">
-                                    <div class="md-checkbox">
-                                        <input id="district1" data-ftype="district" data-value="1" type="checkbox">
-                                        <label for="district1">Район 1</label>
-                                    </div>
-                                    <div class="md-checkbox">
-                                        <input id="district2" data-ftype="district" data-value="2" type="checkbox">
-                                        <label for="district2">Район 2</label>
-                                    </div>
-                                    <div class="md-checkbox">
-                                        <input id="district3" data-ftype="district" data-value="3" type="checkbox">
-                                        <label for="district3">Район 3</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                <div class="detail-checkbox">
-                                    <div class="md-checkbox">
-                                        <input id="i24" data-ftype="district" data-value="1"type="checkbox">
-                                        <label for="i24">Special</label>
-                                    </div>
-                                    <div class="md-checkbox">
-                                        <input id="i25" data-ftype="district" data-value="2" type="checkbox">
-                                        <label for="i25">Выбрать</label>
-                                    </div>
+                    <div class="row detail-checkbox-wrap">
+                        <div class="btn-group">
+                           <div class="col-xs-12 col-sm-6 col-md-4">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Округа
+                                </button>
+                            <div class="dropdown-menu">
 
-                                </div>
+                                <div class="detail-checkbox">
+                                       <fieldset id="venuesFilterAdm"> 
+
+                                            {% for adm_area in adm_areas %}
+                                                <div class="md-checkbox">
+                                                    <input id="admArea{{ adm_area.pk }}" data-ftype="adm" data-value="{{ adm_area.pk }}" type="checkbox" checked=True>
+                                                    <label for="admArea{{ adm_area.pk }}">{{ adm_area.name}}</label>
+                                                </div>
+                                           {% endfor %}
+                                        </fieldset>
+                                        </div>
+                                    </div>                                        
+                            </div>
+                            </div>
+
+                             <div class="col-xs-12 col-sm-6 col-md-4">
+
+                                    <div class="detail-checkbox">  
+                                         <fieldset id="venuesFilterDistrict">
+                                                <div class="md-checkbox">
+                                                    <input id="i24" data-ftype="district" data-value="1"type="checkbox">
+                                                    <label for="i24">Special</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i25" data-ftype="district" data-value="2" type="checkbox">
+                                                    <label for="i25">Выбрать</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i26" data-ftype="district" data-value="3" type="checkbox">
+                                                    <label for="i26">Выбрать e</label>
+                                                </div>
+                                    </fieldset>
+                            </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+
+                                        <div class="detail-checkbox">
+                                            <fieldset id="qwe">
+                                                <div class="md-checkbox">
+                                                    <input id="i24" data-ftype="district" data-value="1"type="checkbox">
+                                                    <label for="i24">Special</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i25" data-ftype="district" data-value="2" type="checkbox">
+                                                    <label for="i25">Выбрать</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i26" data-ftype="district" data-value="3" type="checkbox">
+                                                    <label for="i26">Выбрать e</label>
+                                                </div>
+                                            </fieldset>
+                                        </div>
                             </div>
                         </div>
-                    </fieldset>    
+                    
                     <div class="row">
                         <div class="col-md-6 card-2">
                             <!-- card-1 -->
