@@ -31,12 +31,14 @@
 </head>
 
 <body>
-    {% block site_navigation %}
-        {% include 'mainapp/includes/_site_navigation.html' %}
-    {% endblock site_navigation %}
+    <div class="content">
+        {% block site_navigation %}
+            {% include 'mainapp/includes/_site_navigation.html' %}
+        {% endblock site_navigation %}
 
-    {% block content %}
-    {% endblock content %}
+        {% block content %}
+        {% endblock content %}
+    </div>
 
     {% block footer %}
         {% include 'mainapp/includes/_footer.html' %}

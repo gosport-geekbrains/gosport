@@ -1908,4 +1908,35 @@ select.form-control:not([size]):not([multiple]) {
   -webkit-box-flex: 1 !important;
   flex: 1 1 auto !important; }
 
+
+/* ------------------------ stick footer to bottom ------------------------ */
+
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex-shrink: 0;
+}
+
+
+/* ------------------------ shadows ------------------------ */
+
+.shadow-sm{box-shadow:0 .125rem .25rem rgba(0,0,0,.075)!important}
+.shadow{box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important}
+.shadow-lg{box-shadow:0 1rem 3rem rgba(0,0,0,.175)!important}
+
+
+/* ------------ pointer cursor for submit button ------------ */
+
+input[type=submit] {
+    cursor: pointer;
+}
+
 /*# sourceMappingURL=style.css.map */

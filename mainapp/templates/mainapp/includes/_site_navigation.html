@@ -33,12 +33,30 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'mainapp:contact' %}">Контакты</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="login.html" data-toggle="modal"
-                                       data-target="#exampleModal">Login</a>
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Личный кабинет <span class="ti-angle-down"></span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{% url 'auth:user_dashboard' %}">Дашборд</a>
+                                            <a class="dropdown-item" href="{% url 'auth:user_profile' %}">Настройки</a>
+                                            <a class="dropdown-item" href="{% url 'auth:logout' %}">Выйти</a>
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{% url 'auth:login' %}">Вход</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{% url 'auth:register' %}">Регистрация</a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url 'venues:add_venue' %}" class="btn btn-outline-danger top-btn">
+                                        <span class="ti-plus"></span> Добавить спортобъект
+                                    </a>
                                 </li>
-                                <li><a href="{% url 'venues:add_venue' %}" class="btn btn-outline-danger top-btn"><span
-                                        class="ti-plus"></span> Добавить спортобъект</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -47,76 +65,4 @@
         </div>
     </div>
 </div>
-<!-- Log In & Signup -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="login" data-toggle="pill" href="#pills-home" role="tab"
-                       aria-controls="pills-home" aria-selected="true">LOGIN</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="sign-up" data-toggle="pill" href="#pills-profile" role="tab"
-                       aria-controls="pills-profile" aria-selected="false">SIGN UP</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="login">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><img src="/static/img/logo.png" alt="logo"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control add-listing_form" placeholder="Username">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control add-listing_form" placeholder="Password">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-primary">LOG IN</button>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="sign-up">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><img src="/static/img/logo.png" alt="logo"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control add-listing_form" id="name"
-                                       placeholder="Your name">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control add-listing_form" id="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control add-listing_form" id="username"
-                                       placeholder="Username">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control add-listing_form" id="password"
-                                       placeholder="Password">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-primary">CREATE ACCOUNT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--// Log In & Signup -->
 <!--//END HEADER -->
