@@ -49,15 +49,22 @@ class Command(BaseCommand):
                 #    object_name=geo_object.object_name, id=geo_object.global_id),
                 'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
                 }
-            if options['detail']:
 
+            geo_object_json['properties'].update({
+                'adm': '{}'.format(geo_object.adm_area_id),
+                'dist': '{}'.format(geo_object.district_id),
+                'light': '{:d}'.format(geo_object.has_light),
+                'toilet': '{:d}'.format(geo_object.has_toilet),
+                'eat': '{:d}'.format(geo_object.has_eatery),
+                'dress': '{:d}'.format(geo_object.has_dressing)
+
+            })
+
+            if options['detail']:
+                pass
                 #print(AdmArea.objects.get(name=geo_object.adm_area).id)
 
-                geo_object_json['properties'].update({
-                    'adm': '{}'.format(geo_object.adm_area_id),
-                    'dist': '{}'.format(geo_object.district_id),
-                    
-                })
+
             geo_object_json['options'] = {
             # 'iconImageHref': '/static/images/map_markers/{}'.format(
             #    Category.objects.get(name=geo_object.object_type).marker),

@@ -16,13 +16,14 @@
         <!-- Swiper -->
         <div class="swiper-container">
             <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                    <a href="/static/img/feat_slide1.jpg" class="grid image-link">
-                        <img src="/static/img/feat_slide1.jpg" class="img-fluid" alt="#">
-                    </a>
+                {% for photo in venue_photos %}
+                    <div class="swiper-slide">
+                        <a href="{{ photo.photo.url }}" class="grid image-link">
+                            <img src="{{ photo.photo.url }}" class="img-fluid" alt="#">
+                        </a>
                 </div>
-                <div class="swiper-slide">
+                {% endfor %}
+               <!--  <div class="swiper-slide">
                     <a href="/static/img/feat_slide2.jpg" class="grid image-link">
                         <img src="/static/img/feat_slide2.jpg" class="img-fluid" alt="#">
                     </a>
@@ -47,6 +48,7 @@
                         <img src="/static/img/feat_slide6.jpg" class="img-fluid" alt="#">
                     </a>
                 </div>
+                -->
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination swiper-pagination-white"></div>
