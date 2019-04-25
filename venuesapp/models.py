@@ -118,6 +118,7 @@ class GeoObject(models.Model):
         verbose_name='Приспособлено для инвалидов', max_length=50, blank=True, null=True)
     lighting = models.CharField(
         verbose_name='Освещение', max_length=50, blank=True, null=True)
+    has_light = models.BooleanField(verbose_name='Наличие освещения', default=False)
     paid = models.CharField(
         verbose_name='Платное посещение', max_length=50, blank=True, null=True)
     is_paid = models.BooleanField(verbose_name='Булевая платность', default=False)

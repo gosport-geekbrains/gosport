@@ -7,13 +7,13 @@ import json
 #from venuesapp.models import CategoryClear
 from venuesapp.models import Category, GeoObject, District, AdmArea, Photo, Dataset
 
-from venuesapp.views import load_from_json, get_json_from_api, str_to_boolean, get_photo_from_api
+from venuesapp.views import load_from_json, get_json_from_api, str_to_boolean, get_photo_from_api, lighting_translate
 
 JSON_PATH = 'venuesapp/json'
 
 STR_FEATURES = '[]'
 
-MAP_JS_PATH = '\static\json'
+#MAP_JS_PATH = '\static\json'
 
 
 
@@ -25,12 +25,12 @@ class Command(BaseCommand):
 
         datasets = load_from_json('datasets')
         
-        Dataset.objects.all().delete()
-        AdmArea.objects.all().delete
-        District.objects.all().delete
-        Category.objects.all().delete()
-        GeoObject.objects.all().delete()
-        Photo.objects.all().delete()
+        #Dataset.objects.all().delete()
+        #AdmArea.objects.all().delete
+        #District.objects.all().delete
+        #Category.objects.all().delete()
+        #GeoObject.objects.all().delete()
+        #Photo.objects.all().delete()
 
         for dataset in datasets:
 
@@ -120,6 +120,7 @@ class Command(BaseCommand):
                 venue['disability_friendly'] = geo_object['properties']['Attributes']['DisabilityFriendly']
                 venue['lighting'] = geo_object['properties']['Attributes']['Lighting']
                 venue['paid'] = geo_object['properties']['Attributes']['Paid']
+                venue['has_light'] = lighting_translate(geo_object['properties']['Attributes']['Paid'])
                 if venue['paid'] == ('платно'):
                     venue['is_paid'] = True
                 elif venue['paid'] == ('бесплатно'):

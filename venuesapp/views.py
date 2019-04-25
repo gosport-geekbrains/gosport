@@ -43,14 +43,22 @@ def get_json_from_api(dataset_id, str_features):
     
     return json.loads(str)
 
+#translate text values (yes or no) to boolean
 def str_to_boolean(str):
     if str == 'да':
         return True
     else:
         return False
 
+#translate text values to boolean for lighting type
+def lighting_translate(str):
+    nolight_str = "без дополнительного освещения"
+    if str == nolight_str:
+        return False
+    else:
+        return True
 
-#загрузка фотографии по ссылке, если ее нет в папке
+#get photo from original site
 def get_photo_from_api(filename):
    
     url = settings.MOS_API_IMG_SRC.format(filename)
@@ -63,9 +71,10 @@ def get_photo_from_api(filename):
         if response.status_code == 200:
             with open(result_file_path, 'wb') as imgfile:
                 imgfile.write(response.content)
-        print(result_file_path, " downloaded")
+        #print(result_file_path, " downloaded")
     else:
-        print(result_file_path, " exists")
+        #print(result_file_path, " exists")
+        pass
     return settings.MEDIA_PHOTO_PATH+filename+'.jpg'
 
 

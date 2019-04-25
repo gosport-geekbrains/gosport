@@ -2,8 +2,11 @@
 .vscode
 venv
 gosport_project/static/images/photo/
-media/images/photo
-media\images\photo
+media/images/photo/
+!media/images/photo/zero.git
+
+media\images\photo\
+!media\images\photo\zero.git
 venuesapp\static\images\photo
 gosport_project\static\images\photo
 venuesapp/static/images/photo/
@@ -13,6 +16,6 @@ __pycache__
 local_settings.py
 db.sqlite3
 #/static
-/media
+#/media
 
 script.py
