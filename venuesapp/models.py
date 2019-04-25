@@ -4,6 +4,7 @@ from django.utils.timezone import now
 from datetime import timedelta
 from datetime import datetime 
 import json
+import math
 
 # Create your models here.
 
@@ -209,6 +210,9 @@ class GeoObject(models.Model):
     def venue_name(self):
         pass
 
+    def get_gistance_to(self,bounds):
+        return calc_distanse_betw_points(self.lat, self.lon, bounds)
+
 
 class Photo(models.Model):
 
@@ -256,3 +260,30 @@ def get_str_working_hours(working_hours):
             result=result, day=cur_day['DayOfWeek'], hours=cur_day['Hours'])
 
     return result
+
+#олучить объекты в заданной области
+def get_objects_in_bounds(bounds):
+    center = [(bounds[0][0]+bounds[1][0])/2, (bounds[0][1] + bounds[1][1]) / 2  ]
+    data = GeoObject.objects.filter(is_active=True, lat__range=(bounds[0][0], bounds[1][0]),
+                                    lon__range=(bounds[0][1],bounds[1][1] )).values_list('pk', 'lat', 'lon')
+
+    return data.count()
+
+def degrees_to_radians(degrees):
+  return degrees * math.PI / 180
+
+#calculate distance between two poinst
+def calc_distanse_betw_points(lat1, lon1, bounds):
+  earth_radius_km = 6371
+  center = [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
+
+  d_lat = degrees_to_radians(center[0] - lat1)
+  d_lon = degrees_to_radians(center[1] - lon1)
+
+  lat1 = degrees_to_radians(lat1)
+  lat2 = degrees_to_radians(lat2)
+
+  a = (math.sin(d_lat/2))^2 + (math.sin(d_lon/2))^2 * math.cos(lat1) * math.cos(lat2)
+  c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+  return earth_radius_km * c
+

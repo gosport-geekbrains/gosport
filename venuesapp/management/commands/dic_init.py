@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, get_list_or_404
 import requests
 import json
+import sys
 
 #from venuesapp.models import CategoryClear
 from venuesapp.models import Category, GeoObject, District, AdmArea, Photo, Dataset
@@ -21,16 +22,22 @@ STR_FEATURES = '[]'
 class Command(BaseCommand):
     help = 'Fill DB new data'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--clear',
+                            action='store_true',
+                            help='clear DB before filling')
     def handle(self, *args, **options):
 
         datasets = load_from_json('datasets')
-        
-        #Dataset.objects.all().delete()
-        #AdmArea.objects.all().delete
-        #District.objects.all().delete
-        #Category.objects.all().delete()
-        #GeoObject.objects.all().delete()
-        #Photo.objects.all().delete()
+
+
+        if options['clear']:
+            GeoObject.objects.all().delete()
+            Dataset.objects.all().delete()
+            AdmArea.objects.all().delete()
+            District.objects.all().delete()
+            Category.objects.all().delete()
+            Photo.objects.all().delete()
 
         for dataset in datasets:
 

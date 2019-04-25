@@ -16,12 +16,16 @@ function init () {
             clusterIconLayout: "default#pieChart"
         });
 
-         myMap.events.add('boundschange', function(e){
+        myMap.events.add('boundschange', function(e){
         if (e.get('newZoom') !== e.get('oldZoom')) {
             //console.log(e.get('newZoom'))
-            //console.log(myMap.getBounds())
+            console.log(myMap.getBounds());
         }
-    });
+         });
+         myMap.events.add('Redraw', function(e){
+            console.log(myMap.getBounds());
+            }
+         );
 
     //getVisibleObjects() {
     //
@@ -95,7 +99,7 @@ function init () {
         }
     }
     function checkState() {
-        console.clear();
+        //console.clear();
         var checkAdm = [];
         var checkDistrict = [];
         var ids = $("#venuesFilterAdm :checkbox").map(function () {
