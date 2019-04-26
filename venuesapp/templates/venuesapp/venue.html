@@ -16,13 +16,15 @@
         <!-- Swiper -->
         <div class="swiper-container">
             <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                    <a href="/static/img/feat_slide1.jpg" class="grid image-link">
-                        <img src="/static/img/feat_slide1.jpg" class="img-fluid" alt="#">
-                    </a>
+                {% for photo in venue_photos %}
+                    <div class="swiper-slide">
+                        <a href="{{ photo.photo }}" class="grid image-link">
+                            <img src="{{ photo.photo }}" class="img-fluid" alt="#">
+                        </a>
                 </div>
-                <div class="swiper-slide">
+                {% endfor %}
+                <!-- Photo Gallery --> 
+               <!--  <div class="swiper-slide">
                     <a href="/static/img/feat_slide2.jpg" class="grid image-link">
                         <img src="/static/img/feat_slide2.jpg" class="img-fluid" alt="#">
                     </a>
@@ -47,6 +49,7 @@
                         <img src="/static/img/feat_slide6.jpg" class="img-fluid" alt="#">
                     </a>
                 </div>
+                -->
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination swiper-pagination-white"></div>
@@ -61,9 +64,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Tasty Hand-Pulled Noodles</h5>
-                    <p><span>$$$</span>$$</p>
-                    <p class="reserve-description">Innovative cooking, paired with fine wines in a modern setting.</p>
+                    <h5>{{ venue.object_name }}</h5> </br>
+                    <p class="reserve-description">{{ venue.get_name }}</p>
+                    {% if venue.paid %}
+                        <br>
+                    <p><span>$$$</span> {{ venue.paid }}</p>
+                    <p> {{ venue.paid_comment }}
+                    {% endif %}
+                    
                 </div>
                 <div class="col-md-6">
                     <div class="reserve-seat-block">
@@ -72,7 +80,7 @@
                         </div>
                         <div class="reserve-btn">
                             <div class="featured-btn-wrap">
-                                <a href="#" class="btn btn-danger">RESERVE A SEAT</a>
+                                <a href="#" class="btn btn-danger">Создать событие</a>
                             </div>
                         </div>
                     </div>
@@ -88,26 +96,24 @@
                 <div class="col-md-8 responsive-wrap">
                     <div class="booking-checkbox_wrap">
                         <div class="booking-checkbox">
+                            {{ venue.description }}
+
+                            <p> {{ venue.work_hours_winter }} </p>
+
                             <p>Tasty Hand-Pulled Noodles is a 1950s style diner located in Madison, Wisconsin. Opened in
-                                1946 by Mickey Weidman, and located just across the street from Camp Randall Stadium, it has
-                                become a popular game day tradition amongst
-                                many Badger fans. The diner is well known for its breakfast selections, especially the
-                                Scrambler, which is a large mound of potatoes, eggs, cheese, gravy, and a patrons’ choice of
-                                other toppings.</p>
-                            <p>Mickies has also been featured on “Todd’s Taste of the Town” during one of ESPN’s college
-                                football broadcasts. We are one of the best Chinese restaurants in the New York, New York
-                                area. We have been recognized for our outstanding
-                                Chinese & Asian cuisine, excellent Chinese menu, and great restaurant specials. We are one
-                                of the best Chinese restaurants in the New York, New York area. We have been recognized for
-                                our outstanding Chinese & Asian cuisine,
-                                excellent Chinese menu, and great restaurant specials.</p>
+                            </p>
+                            <p><b>Тип покрытия летом: </b>{{ venue.surface_type_winter }}</p>
+                            <p><b>Тип покрытия зимой: </b>{{ venue.surface_type_winter }} </p>
                             <hr>
                         </div>
                         <div class="row">
+
+
+
                             <div class="col-md-4">
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Bike Parking</span>
+                                    <span class="custom-control-description">{{ has_music }}</span>
                                 </label>
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
@@ -254,25 +260,31 @@
                 </div>
                 <div class="col-md-4 responsive-wrap">
                     <div class="contact-info">
-                        <img src="/static/img/map.jpg" class="img-fluid" alt="#">
+                        <!-- <<img src="/static/img/map.jpg" class="img-fluid" alt="#">> -->
+                        <div id="map_s"></div>
                         <div class="address">
                             <span class="icon-location-pin"></span>
-                            <p> Doyers St<br> New York, NY 10013<br> b/t Division St & St James Pl <br> Chinatown, Civic
-                                Center</p>
+                            <p> {{ venue.adm_area }} <br> {{ venue.district }} <br> {{ venue.address }}</p>
                         </div>
-                        <div class="address">
-                            <span class="icon-screen-smartphone"></span>
-                            <p> +44 20 7336 8898</p>
-                        </div>
-                        <div class="address">
-                            <span class="icon-link"></span>
-                            <p>https://burgerandlobster.com</p>
-                        </div>
+                        {% if venue.help_phone %}
+                            <div class="address">
+                                <span class="icon-screen-smartphone"></span>
+                                <p> {{ venue.help_phone }}</p>
+                            </div>
+                        {% endif %}
+                        {% if venue.web_site %}
+                            <div class="address">
+                                <span class="icon-link"></span>
+                                <p>{{ venue.web_site }}</p>
+                            </div>
+                        {% endif %}
+                        {% if venue.working_hours_winter %}
                         <div class="address">
                             <span class="icon-clock"></span>
-                            <p>Mon - Sun 09:30 am - 05:30 pm </p>
-                            <a href="#" class="featured-open">OPEN NOW</a>
+                            <p>{{ venue.get_working_hours|linebreaksbr }} </p>
+                            <!-- <a href="#" class="featured-open">OPEN NOW</a> -->
                         </div>
+                        {% endif %}
                         <a href="#" class="btn btn-outline-danger btn-contact">SEND A MESSAGE</a>
                     </div>
                     <div class="follow">
@@ -344,4 +356,37 @@
                 });
             }
     </script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU&amp;apikey={{yandex_api_key}}" type="text/javascript"></script>'
+
+    <script>
+
+	ymaps.ready(init);
+
+	function init() {
+    var myMap = new ymaps.Map("map_s", {
+            center: [{{ venue.lat }} , {{ venue.lon }}],
+            zoom: 15
+        }, {
+            searchControlProvider: 'yandex#search'
+        }), obj;
+
+		    obj = ymaps.geoQuery({
+        type: 'FeatureCollection',
+        features: [{
+                type: 'Feature',
+                properties: {
+                    balloonContent: '{{ venue.get_name }}'
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [{{ venue.lat }} , {{ venue.lon }}]
+                }
+            }    ]
+    // Сразу добавим точки на карту.
+    }).addToMap(myMap);
+	}
+	</script>
+
+    </script>
+
 {% endblock js %}

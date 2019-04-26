@@ -48,47 +48,87 @@
                             <small>OPEN LISTING IN MAP</small>
                         </a>
                     </div>
+                    <!-- exp-->
+                    <div class="md-checkbox">
+                                        <input id="sel_all" type="checkbox">
+                                        <label for="i25">Выбрать</label>
+                                    </div>
+                    <!--//exp-->
+                    
                     <div class="row detail-checkbox-wrap">
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i20" type="checkbox">
-                                    <label for="i20">Bike Parking</label>
-                                </div>
-                                <div class="md-checkbox">
-                                    <input id="i21" type="checkbox">
-                                    <label for="i21">Wireless Internet</label>
-                                </div>
+                        <div class="btn-group">
 
+                           <div class="col-xs-12 col-sm-6 col-md-4">
+                        <!-- Filter by administrative area begin-->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Округа
+                                </button>
+                            <div class="dropdown-menu">
+
+                                <div class="detail-checkbox">
+                                       <fieldset id="venuesFilterAdm"> 
+
+                                            {% for adm_area in adm_areas %}
+                                                <div class="md-checkbox">
+                                                    <input id="admArea{{ adm_area.pk }}" data-ftype="adm" data-value="{{ adm_area.pk }}" type="checkbox" checked=True>
+                                                    <label for="admArea{{ adm_area.pk }}">{{ adm_area.name}}</label>
+                                                </div>
+                                           {% endfor %}
+                                        </fieldset>
+                                        </div>
+                                    </div>                                        
                             </div>
+                        <!--Filter by administrative area end-->
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i22" type="checkbox">
-                                    <label for="i22">Smoking Allowed</label>
-                                </div>
-                                <div class="md-checkbox">
-                                    <input id="i23" type="checkbox">
-                                    <label for="i23">Street Parking</label>
-                                </div>
+                        <!--Filter by dataset type begin-->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Тип активности
+                                </button>
+                            <div class="dropdown-menu">
+
+                                <div class="detail-checkbox">
+                                       <fieldset id="venuesFilterDataset"> 
+
+                                            {% for dataset in datasets %}
+                                                <div class="md-checkbox">
+                                                    <input id="dataset{{ dataset.pk }}" data-ftype="dataset_id" data-value="{{ dataset.dataset_id }}" type="checkbox" checked=True>
+                                                    <label for="dataset{{ dataset.pk }}">{{ dataset.name}}</label>
+                                                </div>
+                                           {% endfor %}
+                                        </fieldset>
+                                        </div>
+                                    </div>                                        
+                            </div>                            
+                        <!-- Filter by dataset type end-->
+                            </div>
+                            
+        
 
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="detail-checkbox">
-                                <div class="md-checkbox">
-                                    <input id="i24" type="checkbox">
-                                    <label for="i24">Special</label>
-                                </div>
-                                <div class="md-checkbox">
-                                    <input id="i25" type="checkbox">
-                                    <label for="i25">Accepts Credit cards</label>
-                                </div>
+                                <div class="col-xs-10 col-sm-8 col-md-6">
 
+                                    <div class="detail-checkbox">  
+                                         <fieldset id="venuesFilterOptions">
+                                                <div class="md-checkbox">
+                                                    <input id="i24" data-ftype="dress" data-value="" type="checkbox">
+                                                    <label for="i24">Раздевалка</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i25" data-ftype="eat" data-value="" type="checkbox">
+                                                    <label for="i25">Еда</label>
+                                                </div>
+                                                <div class="md-checkbox">
+                                                    <input id="i26" data-ftype="ight" data-value="" type="checkbox">
+                                                    <label for="i26">Освещение</label>
+                                                </div>
+                                    </fieldset>
+                            </div>
                             </div>
                         </div>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6 card-2">
                             <!-- card-1 -->
@@ -356,7 +396,9 @@
                     <div class="map-fix">
                         <!-- Google map will appear here! Edit the Latitude, Longitude and Zoom Level below using data-attr-*  -->
                         <a href="javascript:void(0);" class="map-close"><span class="ti-close"></span></a>
-                        <div id="map" data-lat="40.674" data-lon="-73.945" data-zoom="12"></div>
+
+                        <div id="map"></div>
+
                     </div>
                 </div>
             </div>
@@ -368,7 +410,11 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="/static/js/script.js"></script>
+
     <!-- Map JS (Please change the API key below. Read documentation for more info) -->
-    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&key=AIzaSyDMTUkJAmi1ahsx9uCGSgmcSmqDTBF9ygg"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU&amp;apikey={{yandex_api_key}}" type="text/javascript"></script>'
+
+    <script src="js/objects_manager.js" type="text/javascript"></script>
 {% endblock js %}
+
+

@@ -1,0 +1,80 @@
+[{
+  	"name": "Cпортивные площадки",
+  	"dataset_id": "893",
+  	"description": "",
+  	"is_active": "1",
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#yellowCircleDotIcon"
+
+ },
+{
+  	"name": "Площадки спортивные универсальные в парках",
+  	"dataset_id": "1251",
+  	"description": "",
+  	"is_active": "1",
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#pinkCircleDotIcon"
+},
+
+{
+	"name": "Тренажерные городки (воркауты)",
+	"dataset_id": "898",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_blue.gif",
+	"ya_preset": "islands#orangeCircleDotIcon"
+},
+{
+	"name": "Поля футбольные",
+	"dataset_id": "886",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#oliveCircleDotIcon"
+},
+{
+	"name": "Поля регбийные",
+	"dataset_id": "885",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#nightCircleDotIcon"
+}
+,
+{
+	"name": "Площадки для городошного спорта",
+	"dataset_id": "917",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#greenCircleDotIcon"
+}
+,
+{
+	"name": "Места для пикника",
+	"dataset_id": "912",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#darkGreenCircleDotIcon"
+}
+,
+{
+	"name": "Скалодромы открытые",
+	"dataset_id": "1388",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#darkBlueeCircleDotIcon"
+}
+,
+{
+	"name": "Скалодромы крытые",
+	"dataset_id": "1387",
+	"description": "",
+	"is_active": "1",
+	"marker":"point_green.gif",
+	"ya_preset": "islands#blueCircleDotIcon"
+}
+]
+
