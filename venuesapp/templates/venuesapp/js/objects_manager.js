@@ -101,7 +101,7 @@ function init () {
     function checkState() {
         //console.clear();
         var checkAdm = [];
-        var checkDistrict = [];
+        var checkDataset = [];
         var ids = $("#venuesFilterAdm :checkbox").map(function () {
     
             if ($(this).prop('checked')) {
@@ -109,23 +109,24 @@ function init () {
 
             }
 
-
         }).get();
         //console.log(check)
 
-        var ids1 = $("#venuesFilterDistrict :checkbox").map(function () {
+        var ids1 = $("#venuesFilterDataset :checkbox").map(function () {
 
             if ($(this).prop('checked')) {
-                checkDistrict.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"')
-                   console.log(this.dataset.ftype)
-                   console.log(this.dataset.value)
+                checkDataset.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"')
+                   //console.log(this.dataset.ftype)
+                   //console.log(this.dataset.value)
             }
 
 
         }).get();
 
         //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
-        strFilter = checkAdm.join(" || ")
+        strFilterAdm = checkAdm.join(" || ");
+        strFilterDataset = checkDataset.join(" || ");
+        strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
        // strFilter = '(properties.adm_area=="2" || properties.adm_area=="3") && (properties.district=="30")'
         objectManager.setFilter(strFilter)
         //console.log(strFilter)
@@ -146,10 +147,9 @@ function init () {
 $('#admArea{{ adm_area.pk }}').click(checkState)
 {% endfor %}
 
-//districts
-{% for district in districts %}
-    $('#district{{ district.pk }}').click(checkState)
-
+//datasets
+{% for dataset in datasets %}
+    $('#dataset{{ dataset.pk }}').click(checkState)
 {% endfor %}
 
 $('#sel_all').click(selectAll);

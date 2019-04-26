@@ -57,7 +57,9 @@
                     
                     <div class="row detail-checkbox-wrap">
                         <div class="btn-group">
+
                            <div class="col-xs-12 col-sm-6 col-md-4">
+                        <!-- Filter by administrative area begin-->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Округа
@@ -77,9 +79,36 @@
                                         </div>
                                     </div>                                        
                             </div>
-                            </div>
+                        <!--Filter by administrative area end-->
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                        <!--Filter by dataset type begin-->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Тип активности
+                                </button>
+                            <div class="dropdown-menu">
 
-                             <div class="col-xs-10 col-sm-8 col-md-6">
+                                <div class="detail-checkbox">
+                                       <fieldset id="venuesFilterDataset"> 
+
+                                            {% for dataset in datasets %}
+                                                <div class="md-checkbox">
+                                                    <input id="dataset{{ dataset.pk }}" data-ftype="dataset_id" data-value="{{ dataset.dataset_id }}" type="checkbox" checked=True>
+                                                    <label for="dataset{{ dataset.pk }}">{{ dataset.name}}</label>
+                                                </div>
+                                           {% endfor %}
+                                        </fieldset>
+                                        </div>
+                                    </div>                                        
+                            </div>                            
+                        <!-- Filter by dataset type end-->
+                            </div>
+                            
+        
+
+                            </div>
+                                <div class="col-xs-10 col-sm-8 col-md-6">
 
                                     <div class="detail-checkbox">  
                                          <fieldset id="venuesFilterOptions">
@@ -97,26 +126,6 @@
                                                 </div>
                                     </fieldset>
                             </div>
-                            </div>
-                           <!-- <div class="col-xs-10 col-sm-8 col-md-6">
-
-                                        <div class="detail-checkbox">
-                                            <fieldset id="qwe">
-                                                <div class="md-checkbox">
-                                                    <input id="i27" data-ftype="district" data-value="1"type="checkbox">
-                                                    <label for="i27">Платное</label>
-                                                </div>
-                                                <div class="md-checkbox">
-                                                    <input id="i28" data-ftype="district" data-value="2" type="checkbox">
-                                                    <label for="i28">Туалет</label>
-                                                </div>
-                                                <div class="md-checkbox">
-                                                    <input id="i29" data-ftype="district" data-value="3" type="checkbox">
-                                                    <label for="i29">Освещение</label>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        -->
                             </div>
                         </div>
                     

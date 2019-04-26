@@ -9,7 +9,9 @@ JSON_PATH = 'venuesapp/json'
 def venues_map(request):
     content = {'yandex_api_key': settings.YANDEX_MAP_API_KEY,
                 'adm_areas': AdmArea.objects.filter(is_active=True).order_by('name'),
-                'districts': District.objects.filter(is_active=True).order_by('name')}
+                'districts': District.objects.filter(is_active=True).order_by('name'),
+                'datasets': Dataset.objects.filter(is_active=True).order_by('name')
+                }
     return render(request, 'venuesapp/venues_map.html', content)
 
 
