@@ -3,11 +3,9 @@
 venv
 gosport_project/static/images/photo/
 
-media/images/photo/
-!media/images/photo/zero.git
 
-media/json/
-!media/json/zero.git
+!/media/images/photo/.gitkeep
+!/media/json/.gitkeep
 
 venuesapp/static/images/photo/
 __pycache__
@@ -17,4 +15,5 @@ local_settings.py
 db.sqlite3
 #/static
 
+media/*
 script.py
