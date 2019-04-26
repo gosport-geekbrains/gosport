@@ -15,11 +15,12 @@ def venues_map(request):
 
 def venue(request, pk):
 
-    venue = get_object_or_404(GeoObject, is_active=True, global_id=pk)
+    venue = get_object_or_404(GeoObject, is_active=True, pk=pk)
     try:
-        venue_photos = Photo.objects.filter(is_active=True, geo_object_id=pk)
+        venue_photos = Photo.objects.filter(is_active=True, geo_object__pk=pk)
+
     except:
-        venue_photos = {}
+       venue_photos = {}
 
     content = {'title': venue.object_name,
                'venue': venue,

@@ -37,14 +37,14 @@ class Command(BaseCommand):
             #print(geo_object.global_id,  ' ', geo_object.get_working_hours())
             geo_object_json = {}
             geo_object_json['type'] = "Feature"
-            geo_object_json['id'] = geo_object.global_id
+            geo_object_json['id'] = geo_object.pk
             geo_object_json['geometry'] = {
                 'coordinates': [round(geo_object.lat,6), round(geo_object.lon,6)], 
                 'type': 'Point'
             }
             geo_object_json['properties'] = {
                 'balloonContentHeader': "<a href='/venues/{id}/'>{object_name}</a>".format(
-                    object_name=geo_object.object_name, id=geo_object.global_id),
+                    object_name=geo_object.object_name, id=geo_object.pk),
                 #'balloonContentBody': "<a href='/venues/{id}/'>{object_name}</a>".format(
                 #    object_name=geo_object.object_name, id=geo_object.global_id),
                 'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
