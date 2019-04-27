@@ -102,10 +102,11 @@ function init () {
         //console.clear();
         var checkAdm = [];
         var checkDataset = [];
+        var checkOptions = [];
         var ids = $("#venuesFilterAdm :checkbox").map(function () {
     
             if ($(this).prop('checked')) {
-                checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"')
+                checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"');
 
             }
 
@@ -115,9 +116,20 @@ function init () {
         var ids1 = $("#venuesFilterDataset :checkbox").map(function () {
 
             if ($(this).prop('checked')) {
-                checkDataset.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"')
+                checkDataset.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"');
                    //console.log(this.dataset.ftype)
                    //console.log(this.dataset.value)
+            }
+
+
+        }).get();
+
+        var ids2 = $("#venuesFilterOptions :checkbox").map(function () {
+
+            if ($(this).prop('checked')) {
+                checkOptions.push('properties.' + this.dataset.ftype + '=="1"');
+                console.log(this.dataset.ftype)
+                console.log(this.dataset.value)
             }
 
 
@@ -127,6 +139,9 @@ function init () {
         strFilterAdm = checkAdm.join(" || ");
         strFilterDataset = checkDataset.join(" || ");
         strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
+        //if (length(checkDataset)) > 0 {
+        //    strFilterOptions = 0
+       // }
        // strFilter = '(properties.adm_area=="2" || properties.adm_area=="3") && (properties.district=="30")'
         objectManager.setFilter(strFilter)
         //console.log(strFilter)
@@ -154,6 +169,9 @@ $('#admArea{{ adm_area.pk }}').click(checkState)
 
 $('#sel_all').click(selectAll);
 
+$('#dress1').click(checkState);
+$('#eat1').click(checkState);
+$('#light1').click(checkState);
 
 
 
