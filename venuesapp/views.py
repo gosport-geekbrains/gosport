@@ -99,7 +99,7 @@ def get_map_objects(request):
 
     return render(request, 'venuesapp/js/objects_manager.js', content)
 
-
-def get_map_object(request, pk):
-    pass
+#получить объекты в видимой области, найти
+def get_objects_in_bounds(request, bounds):
+    pass    
 

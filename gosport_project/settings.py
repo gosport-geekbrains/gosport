@@ -157,3 +157,6 @@ PHOTOS_PATH = 'media/images/photo'
 #api яндекс карт
 YANDEX_MAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'
 #geo-objects json file
+
+#count of nearest venues to map center by map bounds
+COUNT_OF_NEAREST_VENUES = 10

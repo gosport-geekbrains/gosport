@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.conf import settings
+
 from django.utils.timezone import now
 from datetime import timedelta
 from datetime import datetime 
@@ -261,19 +263,25 @@ def get_str_working_hours(working_hours):
 
     return result
 
-#олучить объекты в заданной области
+#получить бдижайшие к центру карты объекты в заданной области 
 def get_objects_in_bounds(bounds):
     center = [(bounds[0][0]+bounds[1][0])/2, (bounds[0][1] + bounds[1][1]) / 2  ]
-    data = GeoObject.objects.filter(is_active=True, lat__range=(bounds[0][0], bounds[1][0]),
-                                    lon__range=(bounds[0][1],bounds[1][1] )).values_list('pk', 'lat', 'lon')
+    venues = GeoObject.objects.filter(is_active=True, lat__range=(bounds[0][0], bounds[1][0]),
+                                    lon__range=(bounds[0][1],bounds[1][1] ))
+    distances = []
+    for venue in venues:
+        distance = calc_distanse_betw_points(venue.lat, venue.lon, bounds)
+        distances.append((venue.pk, distance))
+        distances.sort(key=lambda i: i[1])
 
-    return data.count()
+    return distances[:settings.COUNT_OF_NEAREST_VENUES]
 
 def degrees_to_radians(degrees):
-  return degrees * math.PI / 180
+  return degrees * math.pi / 180
 
 #calculate distance between two poinst
 def calc_distanse_betw_points(lat1, lon1, bounds):
+    
   earth_radius_km = 6371
   center = [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
 
@@ -281,9 +289,34 @@ def calc_distanse_betw_points(lat1, lon1, bounds):
   d_lon = degrees_to_radians(center[1] - lon1)
 
   lat1 = degrees_to_radians(lat1)
-  lat2 = degrees_to_radians(lat2)
+  lat2 = degrees_to_radians(center[1])
 
-  a = (math.sin(d_lat/2))^2 + (math.sin(d_lon/2))^2 * math.cos(lat1) * math.cos(lat2)
+  a = (math.sin(d_lat/2))**2 + ((math.sin(d_lon/2))**2) * math.cos(lat1) * math.cos(lat2)
   c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
   return earth_radius_km * c
 
+
+#для определения ближайших объектов через SQL, не работает в базовом SQLite, не хватает математики.
+class Distances(models.Manager):
+    def distance(self, bounds):
+        from django.db import connection
+        cursor = connection.cursor()
+        cursor.execute("""
+            select pk, object_name, 
+                ( 3959 * acos( cos( radians({center_lat}) ) 
+                        * cos( radians( GeoObjects.lat ) ) 
+                        * cos( radians( GeoObjects.lon ) - radians({center_lon}) ) 
+                        + sin( radians({center_lat}) ) 
+                        * sin( radians( GeoObjects.lat ) ) ) ) AS distance 
+            from GeoObjects 
+            where active = 1 
+            and GeoObjects.lat between {bounds_x1} and {bounds_x2} 
+            and GeoObjects.lon between {bounds_y1} and {bounds_y2}
+            having distance < 10 ORDER BY distance;
+        """)
+        result_list = []
+        for row in cursor.fetchall():
+            p = self.model(id=row[0], question=row[1], poll_date=row[2])
+            p.num_responses = row[3]
+            result_list.append(p)
+        return result_list

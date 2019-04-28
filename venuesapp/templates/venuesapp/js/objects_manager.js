@@ -15,21 +15,14 @@ function init () {
             clusterDisableClickZoom: false,
             clusterIconLayout: "default#pieChart"
         });
-
-        myMap.events.add('boundschange', function(e){
-        if (e.get('newZoom') !== e.get('oldZoom')) {
+    //фунуция обрабатывает перетаскивание, изменение масштаба. Для определения видимых объектов на карте
+    myMap.events.add(['boundschange', 'mouseup','multitouchend'], function(e){
+        //if (e.get('newZoom') !== e.get('oldZoom')) {
             //console.log(e.get('newZoom'))
+            //выдача границ видимой части карты.
             console.log(myMap.getBounds());
-        }
+        //}
          });
-         myMap.events.add('Redraw', function(e){
-            console.log(myMap.getBounds());
-            }
-         );
-
-    //getVisibleObjects() {
-    //
-    //}
 
     // Чтобы задать опции одиночным объектам и кластерам,
     // обратимся к дочерним коллекциям ObjectManager.
@@ -43,61 +36,7 @@ function init () {
     
 	//objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
-    listBoxItems = [
-    {% for dataset in datasets %}
-        new ymaps.control.ListBoxItem({
-            data: {
-                content: '{{ dataset.name }}',
-                dataset_id: {{ dataset.dataset_id }}
-            },
-                state: {
-                    selected: true
-                }
-            
-        }),
-    {% endfor %}
-    ]
 
-
-
-        // Теперь создадим список, содержащий 5 пунктов.
-        listBoxControl = new ymaps.control.ListBox({
-            data: {
-                content: 'Фильтр',
-                title: 'Фильтр'
-            },
-            items: listBoxItems,
-            state: {
-                // Признак, развернут ли список.
-                expanded: false,
-                filters: listBoxItems.reduce(function (filters, filter) {
-                    filters[filter.data.get('dataset_id')] = filter.isSelected();  //content
-                    return filters;
-                }, {})
-            }
-        });
-    myMap.controls.add(listBoxControl);
-
-    // Добавим отслеживание изменения признака, выбран ли пункт списка.
-    listBoxControl.events.add(['select', 'deselect'], function(e) {
-        var listBoxItem = e.get('target');
-        var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
-        filters[listBoxItem.data.get('dataset_id')] = listBoxItem.isSelected(); //content
-        listBoxControl.state.set('filters', filters);
-    });
-
-    var filterMonitor = new ymaps.Monitor(listBoxControl.state);
-    filterMonitor.add('filters', function(filters) {
-        // Применим фильтр.
-        objectManager.setFilter(getFilterFunction(filters));
-    });
-
-    function getFilterFunction(categories){
-        return function(obj){
-            var content = obj.properties.dataset_id;
-            return categories[content]   //
-        }
-    }
     function checkState() {
         //console.clear();
         var checkAdm = [];
@@ -153,6 +92,8 @@ function init () {
         
     }
 
+    
+
     function mapFilter() {
         filterString = []
         objectManager.setFilter()
@@ -173,7 +114,9 @@ $('#dress1').click(checkState);
 $('#eat1').click(checkState);
 $('#light1').click(checkState);
 
-
+//
+//
+//
 
     $.ajax({
         url: "{{ venues_json }}"
