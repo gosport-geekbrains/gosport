@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, get_list_or_404
-from venuesapp.models import Category, Dataset, GeoObject, Photo, AdmArea, District
+from venuesapp.models import Category, Dataset, GeoObject, Photo, AdmArea, District, get_objects_in_bounds
 import os, json, requests
 
 JSON_PATH = 'venuesapp/json'
@@ -99,7 +100,27 @@ def get_map_objects(request):
 
     return render(request, 'venuesapp/js/objects_manager.js', content)
 
-#получить объекты в видимой области, найти
-def get_objects_in_bounds(request, bounds):
-    pass    
 
+
+def get_objects_in(request):
+    bounds = []
+    bounds = json.loads(request.POST['bounds'])
+    print(bounds)
+    print(get_objects_in_bounds(bounds))
+    if request.is_ajax():
+        venues = get_objects_in_bounds(bounds)
+        result = {}
+        for venue in venues:
+            try:
+                Photo = Photo.objects.get(GeoObject__pk=venue[0])
+            except:
+                photo = {}
+
+            venue = get_object_or_404(GeoObject, pk=venue[0])
+            result.append({})    
+
+
+
+        return JsonResponse(dict(get_objects_in_bounds(bounds)))
+
+    return JsonResponse({'data': 0})

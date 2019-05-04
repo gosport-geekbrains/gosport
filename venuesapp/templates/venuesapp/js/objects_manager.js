@@ -16,11 +16,30 @@ function init () {
             clusterIconLayout: "default#pieChart"
         });
     //фунуция обрабатывает перетаскивание, изменение масштаба. Для определения видимых объектов на карте
-    myMap.events.add(['boundschange', 'mouseup','multitouchend'], function(e){
+    myMap.events.add(['boundschange', 'multitouchend'], function(e){
         //if (e.get('newZoom') !== e.get('oldZoom')) {
             //console.log(e.get('newZoom'))
             //выдача границ видимой части карты.
-            console.log(myMap.getBounds());
+        bounds = myMap.getBounds();
+        strBounds = JSON.stringify(bounds);
+
+        $.ajax({
+            type: "POST",
+            url: "get_objects_in/",
+            data: {
+                'bounds': strBounds,
+                csrfmiddlewaretoken: '{{ csrf_token }}'},
+            success: function (msg) {
+                //alert("Data Saved: " + msg);
+                console.log(msg)
+                //$('.card').slideToggle('slow'); //медленное переключение
+                //$('.card').hide('slow'); //убрать элемент с уезжание
+                //$('.card').show('slow'); //выплывание элемента
+                    $('.card').animate({ opacity: "hide" }, "slow");
+                    //отрисовка полученного. 
+                    $('.card').animate({ opacity: "show" }, "slow" );
+            }
+        });
         //}
          });
 

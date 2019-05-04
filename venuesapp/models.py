@@ -265,6 +265,7 @@ def get_str_working_hours(working_hours):
 
 #получить бдижайшие к центру карты объекты в заданной области 
 def get_objects_in_bounds(bounds):
+
     center = [(bounds[0][0]+bounds[1][0])/2, (bounds[0][1] + bounds[1][1]) / 2  ]
     venues = GeoObject.objects.filter(is_active=True, lat__range=(bounds[0][0], bounds[1][0]),
                                     lon__range=(bounds[0][1],bounds[1][1] ))
