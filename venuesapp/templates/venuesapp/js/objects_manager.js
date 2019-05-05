@@ -29,14 +29,50 @@ function init () {
             data: {
                 'bounds': strBounds,
                 csrfmiddlewaretoken: '{{ csrf_token }}'},
-            success: function (msg) {
-                //alert("Data Saved: " + msg);
-                console.log(msg)
+            success: function (serverAnswer) {
+ 
+                //console.log(serverAnswer);
                 //$('.card').slideToggle('slow'); //медленное переключение
                 //$('.card').hide('slow'); //убрать элемент с уезжание
                 //$('.card').show('slow'); //выплывание элемента
+
+                result = JSON.parse(serverAnswer);
+                //console.log(result);
+
+                let resultHTML = "";
+
+                
+                    result.forEach(function(item) {
+                    let venueHTML = `<div class="col-md-6 card-2">
+                            <div class="card">
+                            <a href="detail.html"><img class="card-img-top" src="${item.photo}"
+                                    alt="${item.name}"></a>
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.name}}</h5> 
+                                    <ul class="card-rating">
+                                        <li>5.0</li>
+                                        <li>3 ratings</li>
+                                            <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+                                        <li>${item.paid}</li>
+                                            <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+                                        <li>${item.category} </li>
+                                        </ul>
+                                    <p class="card-text">${item.description}</p>
+                                    </div>';
+                                    <div class="card-bottom"><p></p> <span></span>
+                                    </div> </div> </div>`
+                        
+                        resultHTML += venueHTML
+                        //$($htmlResult).html(venueHTML);
+                        //console.log(resultHTML);
+                        //console.log(venueHTML);
+                    });   
+
+                //console.log(resultHTML);
+                    ///($htmlResult);
                     $('.card').animate({ opacity: "hide" }, "slow");
                     //отрисовка полученного. 
+                $('#venuesObjects').html(resultHTML);
                     $('.card').animate({ opacity: "show" }, "slow" );
             }
         });

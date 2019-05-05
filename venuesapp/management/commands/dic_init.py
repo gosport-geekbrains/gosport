@@ -82,9 +82,8 @@ class Command(BaseCommand):
                 if District.objects.filter(name=district).exists() == False:
                     new_district = District(name=district)
                     new_district.save()
-                    venue['district'] = District.objects.get(name=district)
-
-
+                
+                venue['district'] = District.objects.get(name=district)
                 
                 _category_type = Category.objects.get(name=dataset['name'])
                 venue['object_type'] = _category_type

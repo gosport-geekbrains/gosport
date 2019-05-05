@@ -506,6 +506,17 @@ footer.main-block {
   height: 17px;
   vertical-align: middle; }
 
+.card-img-top img {
+    width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0 0;
+}
+
+.card-img-top {
+  
+}
+
 /* ==============================================================
    DETAILED ITEM
    ============================================================== */

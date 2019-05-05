@@ -105,22 +105,31 @@ def get_map_objects(request):
 def get_objects_in(request):
     bounds = []
     bounds = json.loads(request.POST['bounds'])
-    print(bounds)
-    print(get_objects_in_bounds(bounds))
+    #print(bounds)
+    #print(get_objects_in_bounds(bounds))
     if request.is_ajax():
         venues = get_objects_in_bounds(bounds)
-        result = {}
+        result = []
         for venue in venues:
             try:
-                Photo = Photo.objects.get(GeoObject__pk=venue[0])
+                venue_photo = Photo.objects.filter(
+                    is_active=True, geo_object__pk=venue[0]).latest('pk')
+                photo = venue_photo.photo.url
             except:
-                photo = {}
+                photo = settings.VENUE_NO_PHOTO_IMAGE
 
             venue = get_object_or_404(GeoObject, pk=venue[0])
-            result.append({})    
+            result.append({
+                'name': venue.get_name(), 
+                'description': venue.description, 
+                'paid': venue.paid, 
+                'category': venue.object_type.name,
+                'light': venue.lighting,
+                'photo': photo
+                })    
 
+        print(result)
 
-
-        return JsonResponse(dict(get_objects_in_bounds(bounds)))
+        return JsonResponse(json.dumps(result,  ensure_ascii=False), safe=False)
 
     return JsonResponse({'data': 0})
