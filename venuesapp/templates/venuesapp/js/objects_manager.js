@@ -16,7 +16,7 @@ function init () {
             clusterIconLayout: "default#pieChart"
         });
     //фунуция обрабатывает перетаскивание, изменение масштаба. Для определения видимых объектов на карте
-    myMap.events.add(['boundschange', 'multitouchend'], function(e){
+    myMap.events.add(['boundschange', 'multitouchend','load'], function(e){
         //if (e.get('newZoom') !== e.get('oldZoom')) {
             //console.log(e.get('newZoom'))
             //выдача границ видимой части карты.
@@ -45,10 +45,10 @@ function init () {
                     result.forEach(function(item) {
                     let venueHTML = `<div class="col-md-6 card-2">
                             <div class="card">
-                            <a href="detail.html"><img class="card-img-top" src="${item.photo}"
+                            <a href="${item.pk}"><img class="card-img-top"  src="${item.photo}"
                                     alt="${item.name}"></a>
                                 <div class="card-body">
-                                    <h5 class="card-title">${item.name}}</h5> 
+                                    <h5 class="card-title">${item.name}</h5>
                                     <ul class="card-rating">
                                         <li>5.0</li>
                                         <li>3 ratings</li>
@@ -58,8 +58,8 @@ function init () {
                                         <li>${item.category} </li>
                                         </ul>
                                     <p class="card-text">${item.description}</p>
-                                    </div>';
-                                    <div class="card-bottom"><p></p> <span></span>
+                                    </div>
+                                    <div class="card-bottom"><span></span>
                                     </div> </div> </div>`
                         
                         resultHTML += venueHTML

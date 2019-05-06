@@ -115,13 +115,15 @@ def get_objects_in(request):
                 venue_photo = Photo.objects.filter(
                     is_active=True, geo_object__pk=venue[0]).latest('pk')
                 photo = venue_photo.photo.url
-            except:
+            except Photo.DoesNotExist:
                 photo = settings.VENUE_NO_PHOTO_IMAGE
 
             venue = get_object_or_404(GeoObject, pk=venue[0])
+
             result.append({
+                'pk': venue.pk,
                 'name': venue.get_name(), 
-                'description': venue.description, 
+                'description': venue.description,
                 'paid': venue.paid, 
                 'category': venue.object_type.name,
                 'light': venue.lighting,
