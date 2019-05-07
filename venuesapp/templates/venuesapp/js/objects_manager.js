@@ -28,6 +28,7 @@ function init () {
             url: "get_objects_in/",
             data: {
                 'bounds': strBounds,
+                //'filter': filters,
                 csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (serverAnswer) {
  
@@ -43,6 +44,9 @@ function init () {
 
                 
                     result.forEach(function(item) {
+                    
+                    let description = item.description ? item.descriptionn : "";
+
                     let venueHTML = `<div class="col-md-6 card-2">
                             <div class="card">
                             <a href="${item.pk}"><img class="card-img-top"  src="${item.photo}"
@@ -57,19 +61,15 @@ function init () {
                                             <li><i class="fa fa-circle" aria-hidden="true"></i></li>
                                         <li>${item.category} </li>
                                         </ul>
-                                    <p class="card-text">${item.description}</p>
+                                    <p class="card-text">${description}</p>
                                     </div>
                                     <div class="card-bottom"><span></span>
                                     </div> </div> </div>`
                         
                         resultHTML += venueHTML
-                        //$($htmlResult).html(venueHTML);
-                        //console.log(resultHTML);
-                        //console.log(venueHTML);
+
                     });   
 
-                //console.log(resultHTML);
-                    ///($htmlResult);
                     $('.card').animate({ opacity: "hide" }, "slow");
                     //отрисовка полученного. 
                 $('#venuesObjects').html(resultHTML);
