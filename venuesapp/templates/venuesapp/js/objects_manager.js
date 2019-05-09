@@ -22,12 +22,13 @@ function init () {
             //выдача границ видимой части карты.
         bounds = myMap.getBounds();
         strBounds = JSON.stringify(bounds);
-
+    console.log(checkState());
         $.ajax({
             type: "POST",
             url: "get_objects_in/",
             data: {
                 'bounds': strBounds,
+                'filters': checkState(),
                 //'filter': filters,
                 csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (serverAnswer) {
@@ -94,23 +95,29 @@ function init () {
 
     function checkState() {
         //console.clear();
-        var checkAdm = [];
-        var checkDataset = [];
-        var checkOptions = [];
-        var ids = $("#venuesFilterAdm :checkbox").map(function () {
+        let checkAdm = [];
+        let checkAdmJSON = [];
+        let checkDataset = [];
+        let checkDatasetJSON = [];
+        let checkOptions = [];
+        let CheckOptionsJSON = [];
+        let result = [];
+        let ids = $("#venuesFilterAdm :checkbox").map(function () {
     
             if ($(this).prop('checked')) {
                 checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"');
+                checkAdmJSON.push(this.dataset.value);
 
             }
 
         }).get();
-        //console.log(check)
+
 
         var ids1 = $("#venuesFilterDataset :checkbox").map(function () {
 
             if ($(this).prop('checked')) {
                 checkDataset.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"');
+                checkDatasetJSON.push(this.dataset.value)
                    //console.log(this.dataset.ftype)
                    //console.log(this.dataset.value)
             }
@@ -122,23 +129,26 @@ function init () {
 
             if ($(this).prop('checked')) {
                 checkOptions.push('properties.' + this.dataset.ftype + '=="1"');
-                console.log(this.dataset.ftype)
-                console.log(this.dataset.value)
+                checkOptionsJSON.push(this.dataset.ftype);
+                //console.log(this.dataset.ftype)
+                //console.log(this.dataset.value)
             }
 
 
         }).get();
 
-        //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
         strFilterAdm = checkAdm.join(" || ");
         strFilterDataset = checkDataset.join(" || ");
         strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
-        //if (length(checkDataset)) > 0 {
-        //    strFilterOptions = 0
-       // }
-       // strFilter = '(properties.adm_area=="2" || properties.adm_area=="3") && (properties.district=="30")'
-        objectManager.setFilter(strFilter)
-        //console.log(strFilter)
+
+        objectManager.setFilter(strFilter);
+
+
+        result.push({'checkAdm': checkAdmJSON});
+        result.push({'checkDataset': checkDatasetJSON});
+        //result = result.push({'checkOptions':checkOptionsJSON});
+
+        return JSON.stringify(result);
 
     }
 
