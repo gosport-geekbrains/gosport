@@ -15,40 +15,79 @@ function init () {
             clusterDisableClickZoom: false,
             clusterIconLayout: "default#pieChart"
         });
+
+        objectManager.objects.options.set({
+            //	iconLayout: 'default#image',
+            //	iconImageHref: 'static/images/map_markers/point_blue.gif',
+            iconImageSize: [5, 5],
+            iconImageOffset: [5, 5]
+        });
+
+    //objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
+    myMap.geoObjects.add(objectManager);
+
+        $.ajax({
+        url: "{{ venues_json }}"
+    }).done(function(data) {
+        objectManager.add(data);
+        //checkState;
+    });
+
+
+
+
     //фунуция обрабатывает перетаскивание, изменение масштаба. Для определения видимых объектов на карте
     myMap.events.add(['boundschange', 'multitouchend','load'], function(e){
-        //if (e.get('newZoom') !== e.get('oldZoom')) {
+       objectsInBounds();
+       //geoQuery и  
+       //console.log(myMap.geoObjects)
+        //console.log(myMap.getCenter());
+        //center = new myMap.pl
+        //var storage = ymaps.geoQuery(myMap.geoObjects);
+        //console.log(storage)
+        //var center = ymaps.geoQuery(myMap.getCenter());
+        //let closest = storage.sortByDistance([34, 53]);
+        //console.log(closest)
+    });
+
+    // Чтобы задать опции одиночным объектам и кластерам,
+    // обратимся к дочерним коллекциям ObjectManager.
+    //objectManager.objects.options.set('preset', 'islands#greenDotIcon');
+    
+        function objectsInBounds() {
+            //if (e.get('newZoom') !== e.get('oldZoom')) {
             //console.log(e.get('newZoom'))
             //выдача границ видимой части карты.
-        bounds = myMap.getBounds();
-        strBounds = JSON.stringify(bounds);
-    console.log(checkState());
-        $.ajax({
-            type: "POST",
-            url: "get_objects_in/",
-            data: {
-                'bounds': strBounds,
-                'filters': checkState(),
-                //'filter': filters,
-                csrfmiddlewaretoken: '{{ csrf_token }}'},
-            success: function (serverAnswer) {
- 
-                //console.log(serverAnswer);
-                //$('.card').slideToggle('slow'); //медленное переключение
-                //$('.card').hide('slow'); //убрать элемент с уезжание
-                //$('.card').show('slow'); //выплывание элемента
+            let bounds = myMap.getBounds();
+            let strBounds = JSON.stringify(bounds);
+            //console.log(checkState());
+            $.ajax({
+                type: "POST",
+                url: "get_objects_in/",
+                data: {
+                    'bounds': strBounds,
+                    'filter': checkState(),
+                    //'filter': filters,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function showVenuesIn(serverAnswer) {
 
-                result = JSON.parse(serverAnswer);
-                //console.log(result);
+                    //console.log(serverAnswer);
+                    //$('.card').slideToggle('slow'); //медленное переключение
+                    //$('.card').hide('slow'); //убрать элемент с уезжание
+                    //$('.card').show('slow'); //выплывание элемента
 
-                let resultHTML = "";
+                    result = JSON.parse(serverAnswer);
+                    //console.log(result);
 
-                
-                    result.forEach(function(item) {
-                    
-                    let description = item.description ? item.descriptionn : "";
+                    let resultHTML = "";
 
-                    let venueHTML = `<div class="col-md-6 card-2">
+
+                    result.forEach(function (item) {
+
+                        let description = item.description ? item.descriptionn : "";
+
+                        let venueHTML = `<div class="col-md-6 card-2">
                             <div class="card">
                             <a href="${item.pk}"><img class="card-img-top"  src="${item.photo}"
                                     alt="${item.name}"></a>
@@ -66,58 +105,53 @@ function init () {
                                     </div>
                                     <div class="card-bottom"><span></span>
                                     </div> </div> </div>`
-                        
+
                         resultHTML += venueHTML
 
-                    });   
+                    });
 
                     $('.card').animate({ opacity: "hide" }, "slow");
                     //отрисовка полученного. 
-                $('#venuesObjects').html(resultHTML);
-                    $('.card').animate({ opacity: "show" }, "slow" );
-            }
-        });
-        //}
-         });
+                    $('#venuesObjects').html(resultHTML);
+                    $('.card').animate({ opacity: "show" }, "slow");
+                }
+            });
+            //}
+        }
 
-    // Чтобы задать опции одиночным объектам и кластерам,
-    // обратимся к дочерним коллекциям ObjectManager.
-    //objectManager.objects.options.set('preset', 'islands#greenDotIcon');
-    
-	objectManager.objects.options.set({
-	//	iconLayout: 'default#image',
-	//	iconImageHref: 'static/images/map_markers/point_blue.gif',
-        iconImageSize: [5, 5],
-        iconImageOffset: [5, 5] });
-    
-	//objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
-    myMap.geoObjects.add(objectManager);
+
+
+
+
 
     function checkState() {
         //console.clear();
-        let checkAdm = [];
-        let checkAdmJSON = [];
-        let checkDataset = [];
-        let checkDatasetJSON = [];
-        let checkOptions = [];
-        let CheckOptionsJSON = [];
         let result = [];
-        let ids = $("#venuesFilterAdm :checkbox").map(function () {
+        let checkAdmStr = [];
+        let checkDatasetStr = [];
+        let checkOptionsStr= [];
+
+        let checkAdm = [];
+        let checkDataset = [];
+        let checkOptions = [];
+
+        let admAreaFilter = $("#venuesFilterAdm :checkbox").map(function () {
     
             if ($(this).prop('checked')) {
-                checkAdm.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"');
-                checkAdmJSON.push(this.dataset.value);
+                checkAdmStr.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"');
+                checkAdm.push(this.dataset.value)
 
             }
 
         }).get();
+        
+        //console.log(check)
 
-
-        var ids1 = $("#venuesFilterDataset :checkbox").map(function () {
+        let objectTypeFilter = $("#venuesFilterDataset :checkbox").map(function () {
 
             if ($(this).prop('checked')) {
-                checkDataset.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"');
-                checkDatasetJSON.push(this.dataset.value)
+                checkDatasetStr.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"');
+                checkDataset.push(this.dataset.value)
                    //console.log(this.dataset.ftype)
                    //console.log(this.dataset.value)
             }
@@ -125,28 +159,32 @@ function init () {
 
         }).get();
 
-        var ids2 = $("#venuesFilterOptions :checkbox").map(function () {
+        let optionsFilter = $("#venuesFilterOptions :checkbox").map(function () {
 
             if ($(this).prop('checked')) {
-                checkOptions.push('properties.' + this.dataset.ftype + '=="1"');
-                checkOptionsJSON.push(this.dataset.ftype);
-                //console.log(this.dataset.ftype)
-                //console.log(this.dataset.value)
+                checkOptionsStr.push('properties.' + this.dataset.ftype + '=="1"');
+                console.log(this.dataset.ftype)
+                console.log(this.dataset.value)
             }
 
 
         }).get();
+        
 
-        strFilterAdm = checkAdm.join(" || ");
-        strFilterDataset = checkDataset.join(" || ");
+
+        //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
+        strFilterAdm = checkAdmStr.join(" || ");
+        strFilterDataset = checkDatasetStr.join(" || ");
         strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
-
+        //if (length(checkDataset)) > 0 {
+        //    strFilterOptions = 0
+       // }
+        //strFilter = '(properties.type == "82")'
         objectManager.setFilter(strFilter);
+        console.log(strFilter);
 
-
-        result.push({'checkAdm': checkAdmJSON});
-        result.push({'checkDataset': checkDatasetJSON});
-        //result = result.push({'checkOptions':checkOptionsJSON});
+        result.push({'adm_area': checkAdm});
+        result.push({'dataset': checkDataset});
 
         return JSON.stringify(result);
 
@@ -163,37 +201,31 @@ function init () {
         filterString = []
         objectManager.setFilter()
     }
-//adm_area 
-{% for adm_area in adm_areas %}
-$('#admArea{{ adm_area.pk }}').click(checkState)
-{% endfor %}
 
-//datasets
-{% for dataset in datasets %}
-    $('#dataset{{ dataset.pk }}').click(checkState)
-{% endfor %}
 
-$('#sel_all').click(selectAll);
 
-$('#dress1').click(checkState);
-$('#eat1').click(checkState);
-$('#light1').click(checkState);
+    window.onload = objectsInBounds();
+
+
+
+    //adm_area 
+    {% for adm_area in adm_areas %}
+    $('#admArea{{ adm_area.pk }}').click(checkState)
+    {% endfor %}
+
+    //datasets
+    {% for category in categories %}
+    $('#category{{ category.pk }}').click(checkState)
+    {% endfor %}
+
+    $('#sel_all').click(selectAll);
+
+    $('#dress1').click(checkState);
+    $('#eat1').click(checkState);
+    $('#light1').click(checkState);
 
 //
 //
 //
-
-    $.ajax({
-        url: "{{ venues_json }}"
-    }).done(function(data) {
-        objectManager.add(data);
-        //checkState;
-    });
-
-
-
-
-
-window.onload = checkState;
 
 }

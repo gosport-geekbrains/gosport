@@ -264,11 +264,32 @@ def get_str_working_hours(working_hours):
     return result
 
 #получить бдижайшие к центру карты объекты в заданной области 
-def get_objects_in_bounds(bounds):
-
+def get_objects_in_bounds(bounds, **kwargs):
+    
+    
     center = [(bounds[0][0]+bounds[1][0])/2, (bounds[0][1] + bounds[1][1]) / 2  ]
     venues = GeoObject.objects.filter(is_active=True, lat__range=(bounds[0][0], bounds[1][0]),
                                     lon__range=(bounds[0][1],bounds[1][1] ))
+    if kwargs:
+        filters = kwargs['filter']
+        #print(filters)
+        data_filters = {
+            'adm_area__in': list(map(lambda x: int(x), filters[0]['adm_area'])),
+            'object_type__in': list(map(lambda x: int(x), filters[1]['dataset'])),
+        }
+        #print(data_filters)
+        venues = venues.filter(**data_filters)
+        print(venues.query)
+        print(venues.count())
+        #for filter in filters:
+
+            #print(kwargs)
+            
+            #for key, val in filter.items():
+            #    print(key,val)
+
+            # print(kwargs['filter'][0])
+        
     distances = []
     for venue in venues:
         distance = calc_distanse_betw_points(venue.lat, venue.lon, bounds)

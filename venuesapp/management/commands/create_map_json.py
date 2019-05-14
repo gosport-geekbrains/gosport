@@ -47,18 +47,17 @@ class Command(BaseCommand):
                     object_name=geo_object.object_name, id=geo_object.pk),
                 #'balloonContentBody': "<a href='/venues/{id}/'>{object_name}</a>".format(
                 #    object_name=geo_object.object_name, id=geo_object.global_id),
-                'dataset_id': Dataset.objects.get(name=geo_object.object_type).dataset_id
+                'type': str(geo_object.object_type.pk)
                 }
 
-            geo_object_json['properties'].update({
-                'adm': '{}'.format(geo_object.adm_area_id),
-                'dist': '{}'.format(geo_object.district_id),
-                'light': '{:d}'.format(geo_object.has_light),
-                'toilet': '{:d}'.format(geo_object.has_toilet),
-                'eat': '{:d}'.format(geo_object.has_eatery),
-                'dress': '{:d}'.format(geo_object.has_dressing)
+            fields = {'eat': 'has_eatery', 'toilet': 'has_toilet', 'dress': 'has_dressing'}
 
-            })
+            for key, value in fields.items():
+                if getattr(geo_object, value):
+                    geo_object_json['properties'].update({
+                        key: '{:d}'.format(getattr(geo_object, value))
+                    })
+
 
             if options['detail']:
                 pass

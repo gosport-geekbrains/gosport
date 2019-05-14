@@ -10,8 +10,8 @@ JSON_PATH = 'venuesapp/json'
 def venues_map(request):
     content = {'yandex_api_key': settings.YANDEX_MAP_API_KEY,
                 'adm_areas': AdmArea.objects.filter(is_active=True).order_by('name'),
-                'districts': District.objects.filter(is_active=True).order_by('name'),
-                'datasets': Dataset.objects.filter(is_active=True).order_by('name')
+                #'districts': District.objects.filter(is_active=True).order_by('name'),
+                'categories': Category.objects.filter(is_active=True).order_by('name')
                 }
     return render(request, 'venuesapp/venues_map.html', content)
 
@@ -90,11 +90,10 @@ def get_map_objects(request):
     
     datasets = Category.objects.filter(is_active=True)
     adm_areas = AdmArea.objects.filter(is_active=True)
-    districts = District.objects.filter(is_active=True)
+    categories = Category.objects.filter(is_active=True)
     content = {
-        'datasets': datasets,
+        'categories': categories,
         'adm_areas': adm_areas,
-        'districts': districts,
         'venues_json': settings.VENUES_JSON_FILE
     }
 
@@ -105,11 +104,11 @@ def get_map_objects(request):
 def get_objects_in(request):
     bounds = []
     bounds = json.loads(request.POST['bounds'])
-    #filter = json.loads(request.POST['filter'])
-    print('filter', request.POST.get('filter')
-    #print(get_objects_in_bounds(bounds))
+    #print(request.POST.get('filter'))
+    filter = json.loads(request.POST.get('filter'))
+    #print(filter)
     if request.is_ajax():
-        venues = get_objects_in_bounds(bounds)
+        venues = get_objects_in_bounds(bounds, filter=filter)
         result = []
         for venue in venues:
             try:

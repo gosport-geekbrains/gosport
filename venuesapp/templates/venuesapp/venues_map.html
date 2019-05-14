@@ -92,10 +92,10 @@
                                 <div class="detail-checkbox">
                                        <fieldset id="venuesFilterDataset"> 
 
-                                            {% for dataset in datasets %}
+                                            {% for category in categories %}
                                                 <div class="md-checkbox">
-                                                    <input id="dataset{{ dataset.pk }}" data-ftype="dataset_id" data-value="{{ dataset.dataset_id }}" type="checkbox" checked=True>
-                                                    <label for="dataset{{ dataset.pk }}">{{ dataset.name}}</label>
+                                                    <input id="category{{ category.pk }}" data-ftype="type" data-value="{{ category.pk }}" type="checkbox" checked=True>
+                                                    <label for="category{{ category.pk }}">{{ category.name}}</label>
                                                 </div>
                                            {% endfor %}
                                         </fieldset>
