@@ -105,10 +105,11 @@ def get_map_objects(request):
 def get_objects_in(request):
     bounds = []
     bounds = json.loads(request.POST['bounds'])
-    #print(bounds)
-    #print(get_objects_in_bounds(bounds))
+    #print(request.POST.get('filter'))
+    filter = json.loads(request.POST.get('filter'))
+    #print(filter)
     if request.is_ajax():
-        venues = get_objects_in_bounds(bounds)
+        venues = get_objects_in_bounds(bounds, filter=filter)
         result = []
         for venue in venues:
             try:
@@ -130,7 +131,7 @@ def get_objects_in(request):
                 'photo': photo
                 })    
 
-        print(result)
+        #print(result)
 
         return JsonResponse(json.dumps(result,  ensure_ascii=False), safe=False)
 
