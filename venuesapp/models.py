@@ -279,8 +279,8 @@ def get_objects_in_bounds(bounds, **kwargs):
         }
         #print(data_filters)
         venues = venues.filter(**data_filters)
-        print(venues.query)
-        print(venues.count())
+        #print(venues.query)
+        #print(venues.count())
         #for filter in filters:
 
     distances = []
