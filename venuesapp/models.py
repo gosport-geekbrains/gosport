@@ -283,13 +283,6 @@ def get_objects_in_bounds(bounds, **kwargs):
         print(venues.count())
         #for filter in filters:
 
-            #print(kwargs)
-            
-            #for key, val in filter.items():
-            #    print(key,val)
-
-            # print(kwargs['filter'][0])
-        
     distances = []
     for venue in venues:
         distance = calc_distanse_betw_points(venue.lat, venue.lon, bounds)

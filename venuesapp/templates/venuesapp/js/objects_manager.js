@@ -17,13 +17,11 @@ function init () {
         });
 
         objectManager.objects.options.set({
-            //	iconLayout: 'default#image',
-            //	iconImageHref: 'static/images/map_markers/point_blue.gif',
+
             iconImageSize: [5, 5],
             iconImageOffset: [5, 5]
         });
 
-    //objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
     myMap.geoObjects.add(objectManager);
 
         $.ajax({
@@ -32,8 +30,6 @@ function init () {
         objectManager.add(data);
         //checkState;
     });
-
-
 
 
     //фунуция обрабатывает перетаскивание, изменение масштаба. Для определения видимых объектов на карте
@@ -54,74 +50,70 @@ function init () {
     // обратимся к дочерним коллекциям ObjectManager.
     //objectManager.objects.options.set('preset', 'islands#greenDotIcon');
     
-        function objectsInBounds() {
-            //if (e.get('newZoom') !== e.get('oldZoom')) {
-            //console.log(e.get('newZoom'))
-            //выдача границ видимой части карты.
-            let bounds = myMap.getBounds();
-            let strBounds = JSON.stringify(bounds);
-            //console.log(checkState());
-            $.ajax({
-                type: "POST",
-                url: "get_objects_in/",
-                data: {
-                    'bounds': strBounds,
-                    'filter': checkState(),
-                    //'filter': filters,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function showVenuesIn(serverAnswer) {
+    function objectsInBounds() {
+        //if (e.get('newZoom') !== e.get('oldZoom')) {
+        //console.log(e.get('newZoom'))
+        //выдача границ видимой части карты.
+        let bounds = myMap.getBounds();
+        let strBounds = JSON.stringify(bounds);
+        //console.log(checkState());
+        $.ajax({
+            type: "POST",
+            url: "get_objects_in/",
+            data: {
+                'bounds': strBounds,
+                'filter': JSON.stringify(checkState()),
+                //'filter': filters,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function showVenuesIn(serverAnswer) {
 
-                    //console.log(serverAnswer);
-                    //$('.card').slideToggle('slow'); //медленное переключение
-                    //$('.card').hide('slow'); //убрать элемент с уезжание
-                    //$('.card').show('slow'); //выплывание элемента
+                //console.log(serverAnswer);
+                //$('.card').slideToggle('slow'); //медленное переключение
+                //$('.card').hide('slow'); //убрать элемент с уезжание
+                //$('.card').show('slow'); //выплывание элемента
 
-                    result = JSON.parse(serverAnswer);
-                    //console.log(result);
+                result = JSON.parse(serverAnswer);
+                //console.log(result);
 
-                    let resultHTML = "";
-
-
-                    result.forEach(function (item) {
-
-                        let description = item.description ? item.descriptionn : "";
-
-                        let venueHTML = `<div class="col-md-6 card-2">
-                            <div class="card">
-                            <a href="${item.pk}"><img class="card-img-top"  src="${item.photo}"
-                                    alt="${item.name}"></a>
-                                <div class="card-body">
-                                    <h5 class="card-title">${item.name}</h5>
-                                    <ul class="card-rating">
-                                        <li>5.0</li>
-                                        <li>3 ratings</li>
-                                            <li><i class="fa fa-circle" aria-hidden="true"></i></li>
-                                        <li>${item.paid}</li>
-                                            <li><i class="fa fa-circle" aria-hidden="true"></i></li>
-                                        <li>${item.category} </li>
-                                        </ul>
-                                    <p class="card-text">${description}</p>
-                                    </div>
-                                    <div class="card-bottom"><span></span>
-                                    </div> </div> </div>`
-
-                        resultHTML += venueHTML
-
-                    });
-
-                    $('.card').animate({ opacity: "hide" }, "slow");
-                    //отрисовка полученного. 
-                    $('#venuesObjects').html(resultHTML);
-                    $('.card').animate({ opacity: "show" }, "slow");
-                }
-            });
-            //}
-        }
+                let resultHTML = "";
 
 
+                result.forEach(function (item) {
 
+                    let description = item.description ? item.descriptionn : "";
 
+                    let venueHTML = `<div class="col-md-6 card-2">
+                        <div class="card">
+                        <a href="${item.pk}"><img class="card-img-top"  src="${item.photo}"
+                                alt="${item.name}"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <ul class="card-rating">
+                                    <li>5.0</li>
+                                    <li>3 ratings</li>
+                                        <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+                                    <li>${item.paid}</li>
+                                        <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+                                    <li>${item.category} </li>
+                                    </ul>
+                                <p class="card-text">${description}</p>
+                                </div>
+                                <div class="card-bottom"><span></span>
+                                </div> </div> </div>`
+
+                    resultHTML += venueHTML
+
+                });
+
+                $('.card').animate({ opacity: "hide" }, "slow");
+                //отрисовка полученного.
+                $('#venuesObjects').html(resultHTML);
+                $('.card').animate({ opacity: "show" }, "slow");
+            }
+        });
+        //}
+    }
 
 
     function checkState() {
@@ -140,15 +132,11 @@ function init () {
             if ($(this).prop('checked')) {
                 checkAdmStr.push('properties.'+this.dataset.ftype + '=="' + this.dataset.value +'"');
                 checkAdm.push(this.dataset.value)
-
             }
-
         }).get();
-        
+
         //console.log(check)
-
         let objectTypeFilter = $("#venuesFilterDataset :checkbox").map(function () {
-
             if ($(this).prop('checked')) {
                 checkDatasetStr.push('properties.' + this.dataset.ftype + '=="' + this.dataset.value + '"');
                 checkDataset.push(this.dataset.value)
@@ -167,26 +155,19 @@ function init () {
                 console.log(this.dataset.value)
             }
 
-
         }).get();
         
-
-
         //strFilter = "'(" + checkAdm.join(" || ") + ") && (" + checkDistrict.join(" || ") + ")'"
-        strFilterAdm = checkAdmStr.join(" || ");
-        strFilterDataset = checkDatasetStr.join(" || ");
-        strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
-        //if (length(checkDataset)) > 0 {
-        //    strFilterOptions = 0
-       // }
-        //strFilter = '(properties.type == "82")'
-        objectManager.setFilter(strFilter);
-        console.log(strFilter);
+       // strFilterAdm = checkAdmStr.join(" || ");
+        //strFilterDataset = checkDatasetStr.join(" || ");
+        //strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")"
+        //objectManager.setFilter(strFilter);
+
 
         result.push({'adm_area': checkAdm});
         result.push({'dataset': checkDataset});
 
-        return JSON.stringify(result);
+        return result;
 
     }
 
@@ -198,8 +179,29 @@ function init () {
     
 
     function mapFilter() {
-        filterString = []
-        objectManager.setFilter()
+
+        filterString = checkState();
+
+
+
+        let adm = filterString[0]['adm_area'];
+        let dataset = filterString[1]['dataset'];
+
+        let admProp = adm.map(function(value) {
+            return `properties.adm == "${value}"`
+        });
+
+        let datasetProp = dataset.map(function(value) {
+            return `properties.type == "${value}"`
+        });
+
+        strFilterAdm = admProp.join(" || ");
+        strFilterDataset = datasetProp.join("||");
+
+        strFilter = "(" + strFilterAdm + ") && (" + strFilterDataset + ")";
+
+        objectManager.setFilter(strFilter);
+        objectsInBounds();
     }
 
 
@@ -210,19 +212,19 @@ function init () {
 
     //adm_area 
     {% for adm_area in adm_areas %}
-    $('#admArea{{ adm_area.pk }}').click(checkState)
+    $('#admArea{{ adm_area.pk }}').click(mapFilter)
     {% endfor %}
 
     //datasets
     {% for category in categories %}
-    $('#category{{ category.pk }}').click(checkState)
+    $('#category{{ category.pk }}').click(mapFilter)
     {% endfor %}
 
-    $('#sel_all').click(selectAll);
+    $('#sel_all').click(mapFilter);
 
-    $('#dress1').click(checkState);
-    $('#eat1').click(checkState);
-    $('#light1').click(checkState);
+    $('#dress1').click(mapFilter);
+    $('#eat1').click(mapFilter);
+    $('#light1').click(mapFilter);
 
 //
 //
