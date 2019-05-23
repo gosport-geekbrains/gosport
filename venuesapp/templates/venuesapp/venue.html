@@ -18,8 +18,8 @@
             <div class="swiper-wrapper">
                 {% for photo in venue_photos %}
                     <div class="swiper-slide">
-                        <a href="{{ photo.photo }}" class="grid image-link">
-                            <img src="{{ photo.photo }}" class="img-fluid" alt="#">
+                        <a href="{{ photo.photo.url }}" class="grid image-link">
+                            <img src="{{ photo.photo.url }}" class="img-fluid" alt="#">
                         </a>
                 </div>
                 {% endfor %}
