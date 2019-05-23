@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, get_list_or_404
 from venuesapp.models import Category, Dataset, GeoObject, Photo, AdmArea, District, get_objects_in_bounds
 import os, json, requests
+from PIL import Image
+from pathlib import Path
 
 JSON_PATH = 'venuesapp/json'
 
@@ -135,3 +137,41 @@ def get_objects_in(request):
         return JsonResponse(json.dumps(result,  ensure_ascii=False), safe=False)
 
     return JsonResponse({'data': 0})
+
+
+def create_preview(filename):
+
+    img_path = os.path.join(settings.DOWNLOADED_PHOTO_PATH, f'{filename}.jpg')
+
+    if os.path.exists(img_path):
+
+        thumb_path = os.path.join(settings.PHOTO_THUMB_DIR, filename)
+
+        if os.path.exists(thumb_path):
+            return True
+
+        #imgfile = Path(filename)
+        img = Image.open(img_path)
+
+        #определим соотношеине сторон, если фотография вертикальная - вырезать кусок из центра в соотношении 3х4
+        width = img.size[0]
+        height = img.size[1]
+        #img3 = img.crop((0, 0, width, height-20))
+
+        if height >= width:
+            height_new = width * 3/4
+            params = (0, (height/2)-height_new/2, width, (height/2)+height_new/2)
+
+        elif width*3/4 != height:
+            width_new = height * 4/3
+            params = (0, 0, width_new, height)
+
+        else:
+            params = (0, 0, width, height)
+
+        img_new = img.crop(params)
+        img_new.save(thumb_path, format="JPEG", quality=70)
+        
+        return True
+    else:
+        return False
