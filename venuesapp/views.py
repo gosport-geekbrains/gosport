@@ -116,9 +116,11 @@ def get_objects_in(request):
             try:
                 venue_photo = Photo.objects.filter(
                     is_active=True, geo_object__pk=venue[0]).latest('pk')
-                photo = venue_photo.photo.url
+                photo = f'/media{settings.MEDIA_THUMB_PATH}{venue_photo.api_id}.jpg'
+                #thumb_photo = f'{settings.MEDIA_THUMB_PATH}{venue_photo.photo.api_id}'
             except Photo.DoesNotExist:
                 photo = settings.VENUE_NO_PHOTO_IMAGE
+                thumb_photo = settings.VENUE_NO_PHOTO_IMAGE
 
             venue = get_object_or_404(GeoObject, pk=venue[0])
 
@@ -129,7 +131,8 @@ def get_objects_in(request):
                 'paid': venue.paid, 
                 'category': venue.object_type.name,
                 'light': venue.lighting,
-                'photo': photo
+                'photo': photo,
+                #'thumb': thumb_photo
                 })    
 
         #print(result)
@@ -145,7 +148,7 @@ def create_preview(filename):
 
     if os.path.exists(img_path):
 
-        thumb_path = os.path.join(settings.PHOTO_THUMB_DIR, filename)
+        thumb_path = os.path.join(settings.PHOTO_THUMB_PATH, f'{filename}.jpg')
 
         if os.path.exists(thumb_path):
             return True
@@ -171,7 +174,7 @@ def create_preview(filename):
 
         img_new = img.crop(params)
         img_new.save(thumb_path, format="JPEG", quality=70)
-        
+        img.close
         return True
     else:
         return False

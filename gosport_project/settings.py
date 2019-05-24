@@ -146,14 +146,16 @@ MEDIA_URL = '/media/'
 MOS_API_KEY = '3af1c4bc45500ff00ffc747f15ea5262'
 #Место хранения скачанных фотографий
 DOWNLOADED_PHOTO_PATH = os.path.join(BASE_DIR,'media','images','photo')
+PHOTO_THUMB_PATH = os.path.join(BASE_DIR, 'media', 'images', 'photo','thumb')
 MEDIA_PHOTO_PATH = '/images/photo/'
+MEDIA_THUMB_PATH ='/images/photo/thumb/'
 #источник фотографий
 MOS_API_IMG_SRC = 'https://op.mos.ru/MEDIA/showFile?id={}'
 #место хранения генерируемого json с объектами
 VENUES_JSON_FILE = MEDIA_URL+'json/venues.json'
 VENUES_JSON_PATH = os.path.join(
     BASE_DIR, 'media', 'json', 'venues.json')
-PHOTOS_PATH = 'images/photo'
+PHOTOS_PATH = '/images/photo'
 #api яндекс карт
 YANDEX_MAP_API_KEY = 'c23610c8-c980-437f-9489-632913037bab'
 #geo-objects json file
