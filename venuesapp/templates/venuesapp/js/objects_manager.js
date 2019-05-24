@@ -90,11 +90,7 @@ function init () {
                             <div class="card-body">
                                 <h5 class="card-title">${item.name}</h5>
                                 <ul class="card-rating">
-                                    <li>5.0</li>
-                                    <li>3 ratings</li>
-                                        <li><i class="fa fa-circle" aria-hidden="true"></i></li>
                                     <li>${item.paid}</li>
-                                        <li><i class="fa fa-circle" aria-hidden="true"></i></li>
                                     <li>${item.category} </li>
                                     </ul>
                                 <p class="card-text">${description}</p>
@@ -103,6 +99,16 @@ function init () {
                                 </div> </div> </div>`
 
                     resultHTML += venueHTML
+//            let bck = `
+//                <ul class="card-rating">
+//                    <li>5.0</li>
+//                    <li>3 ratings</li>
+//                    <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+//                    <li>${item.paid}</li>
+//                    <li><i class="fa fa-circle" aria-hidden="true"></i></li>
+//                    <li>${item.category} </li>
+//                </ul>
+//                `
 
                 });
 
