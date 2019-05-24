@@ -2,7 +2,7 @@
 .vscode
 venv
 gosport_project/static/images/photo/
-
+gosport_project/static/images/photo/thumb
 
 !/media/images/photo/.gitkeep
 !/media/json/.gitkeep
