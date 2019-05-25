@@ -8,7 +8,7 @@ import sys
 #from venuesapp.models import CategoryClear
 from venuesapp.models import Category, GeoObject, District, AdmArea, Photo, Dataset
 
-from venuesapp.views import load_from_json, get_json_from_api, str_to_boolean, get_photo_from_api, lighting_translate
+from venuesapp.views import load_from_json, get_json_from_api, str_to_boolean, get_photo_from_api, lighting_translate, create_preview
 
 JSON_PATH = 'venuesapp/json'
 
@@ -82,9 +82,8 @@ class Command(BaseCommand):
                 if District.objects.filter(name=district).exists() == False:
                     new_district = District(name=district)
                     new_district.save()
-                    venue['district'] = District.objects.get(name=district)
-
-
+                
+                venue['district'] = District.objects.get(name=district)
                 
                 _category_type = Category.objects.get(name=dataset['name'])
                 venue['object_type'] = _category_type
@@ -158,7 +157,7 @@ class Command(BaseCommand):
                             new_photo['season'] = 'W'
                             new_photo['api_id'] = photo['Photo']
                             new_photo['photo'] = get_photo_from_api(photo['Photo'])
-
+                            r = create_preview(new_photo['Photo'])
                             new_photo_obj = Photo(**new_photo)
                             new_photo_obj.save()
 
@@ -180,6 +179,6 @@ class Command(BaseCommand):
                             new_photo['api_id'] = photo['Photo']
                             new_photo['photo'] = get_photo_from_api(
                                 photo['Photo'])
-
+                            r = create_preview(new_photo['Photo'])
                             new_photo_obj = Photo(**new_photo)
                             new_photo_obj.save()
