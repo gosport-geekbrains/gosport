@@ -18,6 +18,7 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import TemplateView
 
 
 urlpatterns = [
@@ -26,9 +27,10 @@ urlpatterns = [
     path('venues/', include('venuesapp.urls', namespace='venues')),
     path('events/', include('eventsapp.urls', namespace='events')),
     path('search/', include('searchapp.urls', namespace='search')),
-
-    path('admin/', admin.site.urls),
+        #path('admin/', admin.site.urls),
+   path('yandex_9dc6edde40c77eda.html', TemplateView.as_view(template_name='mainapp/yandex_9dc6edde40c77eda.html'))
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
