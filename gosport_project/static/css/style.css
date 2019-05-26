@@ -63,7 +63,7 @@ footer.main-block {
   padding: 100px 0 60px; }
 
 .gray {
-  background: #fbfbfb; }
+  background: white; }
 
 .gray-dark {
   background: #f5f5f5; }
@@ -278,9 +278,10 @@ footer.main-block {
       display: block; } }
 
 .btn-search {
+  width: 50%;
   position: absolute;
-  top: 29%;
-  right: 3%;
+  top: 76%;
+  right: 24%;
   background: #ff6b6b;
   border-radius: 6px;
   text-align: center;
