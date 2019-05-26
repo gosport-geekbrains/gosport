@@ -150,7 +150,7 @@ footer.main-block {
   cursor: pointer; }
 
 .navbar {
-  padding: 1rem 0; }
+  padding: 0; }
 
 .dropdown-item {
   border-bottom: 1px solid #f5f0f0;
@@ -280,7 +280,7 @@ footer.main-block {
 .btn-search {
   width: 50%;
   position: absolute;
-  top: 76%;
+  top: 83%;
   right: 24%;
   background: #ff6b6b;
   border-radius: 6px;
