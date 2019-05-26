@@ -278,14 +278,13 @@ footer.main-block {
       display: block; } }
 
 .btn-search {
+  width: 50%;
   position: absolute;
-  top: 29%;
-  right: 3%;
+  top: 78%;
+  right: 23%;
   background: #ff6b6b;
   border-radius: 6px;
   text-align: center;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
   transition: 0.3s; }
   @media (max-width: 992px) {
     .btn-search {

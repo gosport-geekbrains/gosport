@@ -6,39 +6,42 @@
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="hero-title">
-                    <h1>Давайте найдем ваш спортобъет/событие?</h1>
+                    <h1>Давайте найдем ваш спортобъект/событие?</h1>
                     <h3>Find out perfect place in your city </h3>
+                    <div class="btn-search">
+                            <a href="{% url 'venues:venues_map' %}" class="btn btn-simple">Искать →</a>
+                    </div>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form>
-                        <div class="search-box">
-                            <div class="row">
-                                <div class="col-md-6 search-box_line">
-                                    <div class="search-box1">
-                                        <div class="search-box-title">
-                                            <label>What?</label><br>
-                                            <input type="text" name="#" class="search-form"
-                                                placeholder="Eg: турнир, тренировка, игра">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="search-box2">
-                                        <div class="search-box-title">
-                                            <label>Where?</label><br>
-                                            <input type="text" name="#" class="search-form"
-                                                placeholder="Eg:  площадка, футбольное поле">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="btn-search">
-                            <a href="#" class="btn btn-simple">Искать →</a>
-                        </div>
-                    </form>
+
+<!--                    <form>-->
+<!--                        <div class="search-box">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-6 search-box_line">-->
+<!--                                    <div class="search-box1">-->
+<!--                                        <div class="search-box-title">-->
+<!--                                            <label>What?</label><br>-->
+<!--                                            <input type="text" name="#" class="search-form"-->
+<!--                                                placeholder="Eg: турнир, тренировка, игра">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6">-->
+<!--                                    <div class="search-box2">-->
+<!--                                        <div class="search-box-title">-->
+<!--                                            <label>Where?</label><br>-->
+<!--                                            <input type="text" name="#" class="search-form"-->
+<!--                                                placeholder="Eg:  площадка, футбольное поле">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        -->
+<!--                    </form>-->
                     <p class="search-bottom-title">By using this website, you are agreeing to our <a href="#"> terms and
                         conditions</a></p>
                 </div>
@@ -47,6 +50,7 @@
     </section>
     <!--//END MAIN TITLE -->
     <!--============================= POPULAR =============================-->
+    {% comment %}
     <div class="popular-link-set gray">
         <div class="container">
             <div class="row">
@@ -135,5 +139,6 @@
             </div>
         </div>
     </div>
+    {% endcomment %}
     <!--//END POPULAR -->
 {% endblock content %}

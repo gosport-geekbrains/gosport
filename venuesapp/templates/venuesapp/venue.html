@@ -14,14 +14,14 @@
     <!--============================= BOOKING =============================-->
     <div>
         <!-- Swiper -->
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                {% for photo in venue_photos %}
-                    <div class="swiper-slide">
-                        <a href="{{ photo.photo.url }}" class="grid image-link">
-                            <img src="{{ photo.photo.url }}" class="img-fluid" alt="#">
-                        </a>
-                </div>
+<!--        <div class="swiper-container">-->
+<!--            <div class="swiper-wrapper">-->
+<!--                {% for photo in venue_photos %}-->
+<!--                    <div class="swiper-slide">-->
+<!--                        <a href="{{ photo.photo.url }}" class="grid image-link">-->
+<!--                            <img src="{{ photo.photo.url }}" class="img-fluid" alt="#">-->
+<!--                        </a>-->
+<!--                </div>-->
                 {% endfor %}
                 <!-- Photo Gallery --> 
                <!--  <div class="swiper-slide">
@@ -50,7 +50,7 @@
                     </a>
                 </div>
                 -->
-            </div>
+<!--            </div>-->
             <!-- Add Pagination -->
             <div class="swiper-pagination swiper-pagination-white"></div>
             <!-- Add Arrows -->
@@ -96,12 +96,11 @@
                 <div class="col-md-8 responsive-wrap">
                     <div class="booking-checkbox_wrap">
                         <div class="booking-checkbox">
-                            {{ venue.description }}
+                            <a href="{{ photo.photo.url }}" class="grid image-link">
+                            <img src="{{ photo.photo.url }}" class="img-fluid" alt="#">
+                            </a>
 
                             <p> {{ venue.work_hours_winter }} </p>
-
-                            <p>Tasty Hand-Pulled Noodles is a 1950s style diner located in Madison, Wisconsin. Opened in
-                            </p>
                             <p><b>Тип покрытия летом: </b>{{ venue.surface_type_winter }}</p>
                             <p><b>Тип покрытия зимой: </b>{{ venue.surface_type_winter }} </p>
                             <hr>
