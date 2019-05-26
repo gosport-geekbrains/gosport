@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'rla0(g^4q!@o1#)bsm)vk=8b)s)jd&ys*fbka+9z^-&+tv1g8)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -75,15 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gosport_project.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -165,3 +157,14 @@ COUNT_OF_NEAREST_VENUES = 10
 
 #путь к заглушке, когда нет фотографии для объекта
 VENUE_NO_PHOTO_IMAGE='/static/images/no_photo.png'
+
+
+try:
+    from .production import *
+except ImportError:
+    pass
+
+try:
+    from .development import *
+except ImportError:
+    pass

@@ -11,13 +11,13 @@ gosport_project/static/images/photo/thumb
 
 
 venuesapp/static/images/photo/
-__pycache__
+.__pycache__
 
 *.log
 local_settings.py
 db.sqlite3
 #/static
-
+production.py
 media/*
 script.py
 

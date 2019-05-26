@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('mainapp.urls')),
-    path('auth/', include('authapp.urls', namespace='auth')),
+#    path('auth/', include('authapp.urls', namespace='auth')),
     path('venues/', include('venuesapp.urls', namespace='venues')),
     path('events/', include('eventsapp.urls', namespace='events')),
     path('search/', include('searchapp.urls', namespace='search')),

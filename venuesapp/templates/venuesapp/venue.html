@@ -75,13 +75,17 @@
                 </div>
                 <div class="col-md-6">
                     <div class="reserve-seat-block">
+                        {% comment %}
                         <div class="reserve-rating mx-0 mx-md-3">
                             <span>9.5</span>
                         </div>
+                        {% comment %}
                         <div class="reserve-btn">
+                            {% comment %}
                             <div class="featured-btn-wrap">
                                 <a href="#" class="btn btn-danger">Создать событие</a>
                             </div>
+                            {% endcomment %}
                         </div>
                     </div>
                 </div>
@@ -96,12 +100,12 @@
                 <div class="col-md-8 responsive-wrap">
                     <div class="booking-checkbox_wrap">
                         <div class="booking-checkbox">
-                            {{ venue.description }}
-
+                            {% if venue.description %}
+                                {{ venue.description }}
+                            {% endif %}    
                             <p> {{ venue.work_hours_winter }} </p>
 
-                            <p>Tasty Hand-Pulled Noodles is a 1950s style diner located in Madison, Wisconsin. Opened in
-                            </p>
+                            
                             <p><b>Тип покрытия летом: </b>{{ venue.surface_type_winter }}</p>
                             <p><b>Тип покрытия зимой: </b>{{ venue.surface_type_winter }} </p>
                             <hr>
@@ -111,37 +115,51 @@
 
 
                             <div class="col-md-4">
+                                {% if venue.has_light %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">{{ has_music }}</span>
+                                    <span class="custom-control-description">Освещение</span>
                                 </label>
+                                {% endif %}
+                                {% if venue.has_wifi %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Wireless Internet  </span>
+                                    <span class="custom-control-description">WiFi  </span>
                                 </label>
+                                {% endif %}
                             </div>
                             <div class="col-md-4">
+                                {% if venue.has_toilet %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Smoking Allowed  </span>
+                                    <span class="custom-control-description">Туалет  </span>
                                 </label>
+                                {% endif %}
+                                {% if venue.has_dressing %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Street Parking</span>
+                                    <span class="custom-control-description">Раздевалка</span>
                                 </label>
+                                {% endif %}
                             </div>
                             <div class="col-md-4">
+                                {% if venue.has_eatery %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Special</span>
+                                    <span class="custom-control-description">Еда</span>
                                 </label>
+                                {% endif %}
+                                {% if venue.has_equipment_rental %}
                                 <label class="custom-checkbox">
                                     <span class="ti-check-box"></span>
-                                    <span class="custom-control-description">Accepts Credit cards</span>
+                                    <span class="custom-control-description">Прокат</span>
                                 </label>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
+
+                    {% comment %}
                     <div class="booking-checkbox_wrap booking-your-review">
                         <h5>Write a Review</h5>
                         <hr>
@@ -181,6 +199,8 @@
                             </div>
                         </div>
                     </div>
+                    {% endcomment %}
+                    {% comment %}
                     <div class="booking-checkbox_wrap my-4">
                         <h4>34 Reviews</h4>
                         <hr>
@@ -257,7 +277,9 @@
                             </div>
                         </div>
                     </div>
+                    {% endcomment %}
                 </div>
+               
                 <div class="col-md-4 responsive-wrap">
                     <div class="contact-info">
                         <!-- <<img src="/static/img/map.jpg" class="img-fluid" alt="#">> -->

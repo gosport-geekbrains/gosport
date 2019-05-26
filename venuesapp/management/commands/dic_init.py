@@ -157,7 +157,7 @@ class Command(BaseCommand):
                             new_photo['season'] = 'W'
                             new_photo['api_id'] = photo['Photo']
                             new_photo['photo'] = get_photo_from_api(photo['Photo'])
-                            r = create_preview(new_photo['Photo'])
+                            r = create_preview(photo['Photo'])
                             new_photo_obj = Photo(**new_photo)
                             new_photo_obj.save()
 
@@ -179,6 +179,6 @@ class Command(BaseCommand):
                             new_photo['api_id'] = photo['Photo']
                             new_photo['photo'] = get_photo_from_api(
                                 photo['Photo'])
-                            r = create_preview(new_photo['Photo'])
+                            r = create_preview(photo['Photo'])
                             new_photo_obj = Photo(**new_photo)
                             new_photo_obj.save()
